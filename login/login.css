@@ -1,0 +1,52 @@
+.radius-24{
+    border-radius: 24px;
+   
+}
+
+.circulo{
+    border-radius: 100px;
+    background-color: #98F66C;
+    height: 5vh;
+    width: 5vh;
+    /*display: flex;
+    position: relative;
+    right: 250px;*/  
+}
+
+.fondo-verde{
+    background-color: #98F66C;
+}
+
+.letra-verde{
+    color: #98F66C;
+}
+
+.infinito{
+       width: 201px;
+       height: 96px;
+}
+
+@media (min-width: 992px) {
+    .infinito{
+        width: 268px;
+        height: 128px;
+    }
+
+
+/*
+    .subir{
+        position: relative;
+        left: 645px;
+        bottom: 315px;     
+    }
+*/
+    .circulo{
+        position: relative;
+        left: 15px;
+    }
+
+    .alinear-enlaces{
+        position: relative;
+        left: -87px;
+    }
+  }
