@@ -1,0 +1,372 @@
+.radius-24 {
+  border-radius: 24px;
+}
+
+.circulo {
+  border-radius: 100px;
+  background-color: #98F66C;
+  height: 5vh;
+  width: 5vh;
+}
+
+.fondo-verde {
+  background-color: #98F66C;
+}
+
+.letra-verde {
+  color: #98F66C;
+}
+
+header {
+  background-color: #ffffff;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #212529;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link {
+  color: #212529;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #98F66C;
+}
+
+.btn {
+  background-color: #98F66C;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #fff;
+  border: 2px solid #98F66C;
+  color: #98F66C;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer {
+  background-color: #98F66C;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer a {
+  color: #000;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.seccion-principal {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.img-chef {
+  max-width: 80%;
+  z-index: 2;
+}
+
+/* Beneficios */
+.beneficios-section {
+  background-color: #98F66C;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.tarjeta-beneficio {
+  width: 100%;
+  max-width: 350px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.tarjeta-beneficio:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.icono-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.icono-beneficio {
+  width: 70px;
+  height: auto;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+.bolsa {
+  height: 60px;
+  width: 50px;
+}
+
+.impacto-desperdicio img {
+  max-width: 100%;
+}
+
+/* Botón verde */
+.btn-green {
+  background-color: #98F66C;
+  color: #fff;
+}
+
+.btn-green:hover {
+  background-color: #fff;
+  border: 2px solid #98F66C;
+  color: #98F66C;
+}
+
+/* Ajustes Responsive */
+@media (max-width: 768px) {
+  .img-chef {
+    display: none;
+  }
+
+  .seccion-principal {
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .btn-green {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .tarjeta-beneficio {
+    height: auto;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .impacto-desperdicio {
+    text-align: center;
+  }
+
+  .beneficios-section {
+    min-height: auto;
+    padding: 40px 0;
+  }
+}
+
+/* Estilos adicionales para el botón decorativo */
+.button {
+  height: 50px;
+  width: 200px;
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+  border: 2px solid #252525;
+  overflow: hidden;
+  border-radius: 30px;
+  color: #333;
+  transition: all 0.5s ease-in-out;
+}
+
+.btn-txt {
+  z-index: 1;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.type1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 0.5s ease-in-out;
+  background-color: #333;
+  border-radius: 30px;
+  visibility: hidden;
+  height: 10px;
+  width: 10px;
+  z-index: -1;
+}
+
+.button:hover {
+  box-shadow: 1px 1px 200px #252525;
+  color: #fff;
+  border: none;
+}
+
+.type1:hover::after {
+  visibility: visible;
+  transform: scale(100) translateX(2px);
+}
+
+
+
+/*ESTILOS DEL BOTON DE UNETE AL CAMBIO*/
+/* From Uiverse.io by adamgiebl */ 
+.cssbuttons-io-button {
+  background: #98F66C;
+  color: white;
+  font-family: inherit;
+  padding: 0.35em;
+  padding-left: 1.2em;
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em #98F66C;
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3.3em;
+  cursor: pointer;
+}
+
+.cssbuttons-io-button .icon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #98F66C;
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.cssbuttons-io-button:hover .icon {
+  width: calc(100% - 0.6em);
+}
+
+.cssbuttons-io-button .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #98F66C;
+}
+
+.cssbuttons-io-button:hover .icon svg {
+  transform: translateX(0.1em);
+}
+
+.cssbuttons-io-button:active .icon {
+  transform: scale(0.95);
+}
+
+
+/*FIN ESTILOS BOTON UNETE AL CAMBIO*/
+
+
+/* ESTILOS BOTON REGISTRO/LOGIN */
+/* From Uiverse.io by satyamchaudharydev */ 
+.btnLogin {
+  --primary-color: #98F66C;
+  --secondary-color: #fff;
+  --hover-color: #111;
+  --arrow-width: 10px;
+  --arrow-stroke: 2px;
+  height: 60px;
+  width: auto;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 20px;
+  color: var(--secondary-color);
+  padding: 1em 1.8em;
+  background: var(--primary-color);
+  display: flex;
+  transition: 0.2s background;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: bold;
+}
+
+.btnLogin .arrow-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnLogin .arrow {
+  margin-top: 1px;
+  width: var(--arrow-width);
+  background: var(--primary-color);
+  height: var(--arrow-stroke);
+  position: relative;
+  transition: 0.2s;
+}
+
+.btnLogin .arrow::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  border: solid var(--secondary-color);
+  border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+  display: inline-block;
+  top: -3px;
+  right: 3px;
+  transition: 0.2s;
+  padding: 3px;
+  transform: rotate(-45deg);
+}
+
+.btnLogin:hover {
+  background-color: var(--hover-color);
+}
+
+.btnLogin:hover .arrow {
+  background: var(--secondary-color);
+}
+
+.btnLogin:hover .arrow:before {
+  right: 0;
+}
+/* FIN ESTILOS BOTON REGISTRO/LOGIN */
