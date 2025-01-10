@@ -123,12 +123,12 @@
                             <label for="ingredientName" class="form-label">Ingredientes</label>
                             <div id="ingredientInputs">
                                 <div class="d-flex gap-2 mb-2">
-                                    <input type="text" class="form-control" id="ingredientName" placeholder="Nombre"
-                                        required>
+                                    <input type="text" class="form-control" id="ingredientName" placeholder="Nombre" required oninput="validateName(this)">
+                                    <small id="nameWarning" class="text-danger" >No se permiten números en este campo.</small>
                                     <input type="number" class="form-control" id="ingredientQuantity"
                                         placeholder="Cantidad" required>
-                                    <input type="text" class="form-control" id="ingredientUnit" placeholder="Unidad"
-                                        required>
+                                    <input type="text" class="form-control" id="ingredientUnit" placeholder="Unidad" required oninput="validateUnit(this)">
+                                    <small id="unitWarning" class="text-danger" >Solo se permiten unidades de masa y de capacidad.</small>
                                 </div>
                                 <button type="button" class="btn btn-secondary" id="addIngredientBtn">Guardar
                                     Ingrediente</button>
@@ -476,6 +476,33 @@ saveEditedRecipeBtn.addEventListener('click', function () {
     modal.hide();
 });
 
+    </script>
+
+    <script>
+        function validateName(input) {
+            const warning = document.getElementById('nameWarning');
+            const hasNumbers = /\d/.test(input.value);
+
+            if (hasNumbers) {
+                warning.style.display = 'block';
+                input.value = input.value.replace(/\d/g, '');
+            } else {
+                warning.style.display = 'none';
+            }
+        }
+    </script>
+
+    <script>
+        function validateUnit(input) {
+            const allowedUnits = ['kg','kilogramo','kilogramos', 'hg','hectogramo','hectogramos','dag','decagramo','decagramos','g','gramo','gramos','dg','decigramo','decigramos','cg','centigramo','centigramos','mg','miligramo','miligramos','kl','kilolitro','kilolitros','hl','hectolitro','hectolitros','dal','decalitro','decalitros','l','litro','litros','dl','decilitro','decilitros','cl','centilitro','centilitros','ml','mililitro','mililitros']; 
+            const warning = document.getElementById('unitWarning');
+            
+            if (!allowedUnits.includes(input.value.trim())) {
+                warning.style.display = 'block';
+            } else {
+                warning.style.display = 'none';
+            }
+        }
     </script>
 
 </body>
