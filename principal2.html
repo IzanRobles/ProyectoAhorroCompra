@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porción Exacta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="principal.css">
+</head>
+
+<body>
+    <!-- Header con navbar responsive -->
+    <header class="py-3 shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#">Porci<span class="letra-verde">ó</span>n exacta</a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold active" aria-current="page" href="#">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" href="#">Recetas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" href="#">Beneficios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" href="#">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Fin header con navbar responsive -->
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <h1 class="fw-bold fs-1">Recetas</h1>
+                <button class="create-recipe-btn btn btn-success" data-bs-toggle="modal" data-bs-target="#recipeModal">
+                    Crear Receta
+                </button>
+            </div>
+        </div>
+
+        <div class="row mt-4" id="recipeContainer">
+            <!-- Tarjetas de recetas existentes -->
+            <div class="col-md-4">
+                <div class="recipe-card">
+                    <h5>Ensalada de lentejas</h5>
+                    <p>Tiempo de preparación: 15 min</p>
+                    <button class="btn btn-primary">Cocinar</button>
+                </div>
+            </div>
+
+            <!-- Tarjeta para añadir recetas -->
+            <div class="col-md-4">
+                <div class="add-recipe-card" data-bs-toggle="modal" data-bs-target="#recipeModal">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para crear receta -->
+    <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeModalLabel">Crear Receta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="recipeForm">
+                        <div class="mb-3">
+                            <label for="recipeTitle" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="recipeTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipeDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="recipeDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipeServings" class="form-label">Número de personas</label>
+                            <input type="number" class="form-control" id="recipeServings" min="1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipeTime" class="form-label">Tiempo de preparación (minutos)</label>
+                            <input type="number" class="form-control" id="recipeTime" min="1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipeIngredients" class="form-label">Ingredientes</label>
+                            <textarea class="form-control" id="recipeIngredients" rows="3" placeholder="Ejemplo: 2 tazas de harina, 1 huevo" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipeSteps" class="form-label">Pasos a seguir (opcional)</label>
+                            <textarea class="form-control" id="recipeSteps" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="saveRecipeBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('saveRecipeBtn').addEventListener('click', function () {
+            const title = document.getElementById('recipeTitle').value;
+            const description = document.getElementById('recipeDescription').value;
+            const servings = document.getElementById('recipeServings').value;
+            const time = document.getElementById('recipeTime').value;
+            const ingredients = document.getElementById('recipeIngredients').value;
+
+            if (title && description && servings && time && ingredients) {
+                const recipeContainer = document.getElementById('recipeContainer');
+                const newCard = document.createElement('div');
+                newCard.classList.add('col-md-4');
+                newCard.innerHTML = `
+                    <div class="recipe-card">
+                        <h5>${title}</h5>
+                        <p>${description}</p>
+                        <p>Porciones: ${servings}</p>
+                        <p>Tiempo: ${time} min</p>
+                        <button class="btn btn-primary">Cocinar</button>
+                    </div>`;
+
+                // Insertar antes de la tarjeta de agregar recetas
+                const addRecipeCard = document.querySelector('.add-recipe-card').parentNode;
+                recipeContainer.insertBefore(newCard, addRecipeCard);
+
+                // Limpiar el formulario y cerrar el modal
+                document.getElementById('recipeForm').reset();
+                const modal = bootstrap.Modal.getInstance(document.getElementById('recipeModal'));
+                modal.hide();
+            } else {
+                alert('Por favor, completa todos los campos requeridos.');
+            }
+        });
+    </script>
+</body>
+
+</html>
