@@ -151,52 +151,77 @@
         </div>
     </div>
 
-    <!-- Modal para detalles de receta -->
-    <div class="modal fade" id="recipeDetailsModal" tabindex="-1" aria-labelledby="recipeDetailsModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="recipeDetailsModalLabel">Detalles de Receta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editRecipeForm">
-                        <div class="mb-3">
-                            <label for="editRecipeTitle" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="editRecipeTitle" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editRecipeDescription" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="editRecipeDescription" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editRecipeServings" class="form-label">Número de personas</label>
-                            <input type="number" class="form-control" id="editRecipeServings">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editRecipeTime" class="form-label">Tiempo de preparación (minutos)</label>
-                            <input type="number" class="form-control" id="editRecipeTime">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editIngredientList" class="form-label">Ingredientes</label>
-                            <ul class="list-group" id="editIngredientList">
-                                <!-- Ingredientes existentes -->
-                            </ul>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editRecipeSteps" class="form-label">Pasos a seguir</label>
-                            <textarea class="form-control" id="editRecipeSteps" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="saveEditedRecipeBtn">Guardar Cambios</button>
+        <!-- Modal para detalles de receta (solo vista) -->
+        <div class="modal fade" id="recipeViewModal" tabindex="-1" aria-labelledby="recipeViewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="recipeViewModalLabel">Detalles de Receta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 id="viewRecipeTitle" class="fw-bold"></h5>
+                        <p id="viewRecipeDescription"></p>
+                        <p><strong>Número de personas:</strong> <span id="viewRecipeServings"></span></p>
+                        <p><strong>Tiempo de preparación:</strong> <span id="viewRecipeTime"></span> minutos</p>
+                        <h6><strong>Ingredientes:</strong></h6>
+                        <ul id="viewIngredientList" class="list-group mb-3"></ul>
+                        <h6><strong>Pasos a seguir:</strong></h6>
+                        <p id="viewRecipeSteps"></p>
+                    </div>
                 </div>
             </div>
         </div>
+
+
+
+
+<!-- Modal para detalles de receta (editable) -->
+<div class="modal fade" id="recipeDetailsModal" tabindex="-1" aria-labelledby="recipeDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recipeDetailsModalLabel">Editar Receta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editRecipeForm">
+                    <div class="mb-3">
+                        <label for="editRecipeTitle" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="editRecipeTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRecipeDescription" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="editRecipeDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRecipeServings" class="form-label">Número de personas</label>
+                        <input type="number" class="form-control" id="editRecipeServings">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRecipeTime" class="form-label">Tiempo de preparación (minutos)</label>
+                        <input type="number" class="form-control" id="editRecipeTime">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editIngredientList" class="form-label">Ingredientes</label>
+                        <ul class="list-group" id="editIngredientList">
+                            <!-- Ingredientes existentes -->
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRecipeSteps" class="form-label">Pasos a seguir</label>
+                        <textarea class="form-control" id="editRecipeSteps" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="saveEditedRecipeBtn">Guardar Cambios</button>
+            </div>
+        </div>
     </div>
+</div>
+
 
 
     <!-- Footer -->
@@ -280,61 +305,67 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-                // Referencias a elementos del DOM
-        const ingredientList = document.getElementById('ingredientList');
-        const addIngredientBtn = document.getElementById('addIngredientBtn');
-        const recipeContainer = document.getElementById('recipeContainer');
-        const saveRecipeBtn = document.getElementById('saveRecipeBtn');
-        const editRecipeForm = document.getElementById('editRecipeForm');
-        const editRecipeTitle = document.getElementById('editRecipeTitle');
-        const editRecipeDescription = document.getElementById('editRecipeDescription');
-        const editRecipeServings = document.getElementById('editRecipeServings');
-        const editRecipeTime = document.getElementById('editRecipeTime');
-        const editIngredientList = document.getElementById('editIngredientList');
-        const editRecipeSteps = document.getElementById('editRecipeSteps');
-        const saveEditedRecipeBtn = document.getElementById('saveEditedRecipeBtn');
+// Referencias a elementos del DOM
+const ingredientList = document.getElementById('ingredientList');
+const addIngredientBtn = document.getElementById('addIngredientBtn');
+const recipeContainer = document.getElementById('recipeContainer');
+const saveRecipeBtn = document.getElementById('saveRecipeBtn');
+const editRecipeForm = document.getElementById('editRecipeForm');
+const editRecipeTitle = document.getElementById('editRecipeTitle');
+const editRecipeDescription = document.getElementById('editRecipeDescription');
+const editRecipeServings = document.getElementById('editRecipeServings');
+const editRecipeTime = document.getElementById('editRecipeTime');
+const editIngredientList = document.getElementById('editIngredientList');
+const editRecipeSteps = document.getElementById('editRecipeSteps');
+const saveEditedRecipeBtn = document.getElementById('saveEditedRecipeBtn');
+const viewRecipeTitle = document.getElementById('viewRecipeTitle');
+const viewRecipeDescription = document.getElementById('viewRecipeDescription');
+const viewRecipeServings = document.getElementById('viewRecipeServings');
+const viewRecipeTime = document.getElementById('viewRecipeTime');
+const viewIngredientList = document.getElementById('viewIngredientList');
+const viewRecipeSteps = document.getElementById('viewRecipeSteps');
 
-        // Ingredientes temporales
-        let temporaryIngredients = [];
+// Ingredientes temporales
+let temporaryIngredients = [];
 
-        // Añadir ingrediente a la lista en el modal de crear receta
-        addIngredientBtn.addEventListener('click', () => {
-            const name = document.getElementById('ingredientName').value;
-            const quantity = document.getElementById('ingredientQuantity').value;
-            const unit = document.getElementById('ingredientUnit').value;
+// Añadir ingrediente a la lista en el modal de crear receta
+addIngredientBtn.addEventListener('click', () => {
+    const name = document.getElementById('ingredientName').value;
+    const quantity = document.getElementById('ingredientQuantity').value;
+    const unit = document.getElementById('ingredientUnit').value;
 
-            if (name && quantity && unit) {
-                const listItem = document.createElement('li');
-                listItem.classList.add('list-group-item');
-                listItem.textContent = `${quantity} ${unit} de ${name}`;
+    if (name && quantity && unit) {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item');
+        listItem.textContent = `${quantity} ${unit} de ${name}`;
 
-                ingredientList.appendChild(listItem);
-                temporaryIngredients.push(`${quantity} ${unit} de ${name}`);
+        ingredientList.appendChild(listItem);
+        temporaryIngredients.push(`${quantity} ${unit} de ${name}`);
 
-                // Limpiar los campos de entrada
-                document.getElementById('ingredientName').value = '';
-                document.getElementById('ingredientQuantity').value = '';
-                document.getElementById('ingredientUnit').value = '';
-            } else {
-                alert('Por favor, completa todos los campos del ingrediente.');
-            }
-        });
+        // Limpiar los campos de entrada
+        document.getElementById('ingredientName').value = '';
+        document.getElementById('ingredientQuantity').value = '';
+        document.getElementById('ingredientUnit').value = '';
+    } else {
+        alert('Por favor, completa todos los campos del ingrediente.');
+    }
+});
 
-        // Guardar receta desde el modal de crear receta
-        saveRecipeBtn.addEventListener('click', function () {
-            const title = document.getElementById('recipeTitle').value;
-            const description = document.getElementById('recipeDescription').value;
-            const servings = document.getElementById('recipeServings').value;
-            const time = document.getElementById('recipeTime').value;
+// Guardar receta desde el modal de crear receta
+saveRecipeBtn.addEventListener('click', function () {
+    const title = document.getElementById('recipeTitle').value;
+    const description = document.getElementById('recipeDescription').value;
+    const servings = document.getElementById('recipeServings').value;
+    const time = document.getElementById('recipeTime').value;
 
-            if (title && description && servings && time && temporaryIngredients.length > 0) {
-                const newCard = document.createElement('div');
-                newCard.classList.add('col-md-4');
-                newCard.innerHTML = `
-                    <div class="recipe-card">
-                        <h5 class="recipe-title" data-bs-toggle="modal" data-bs-target="#recipeDetailsModal">${title}</h5>
-                        <p>Tiempo de preparación: ${time} min</p>
-                        <button>
+    if (title && description && servings && time && temporaryIngredients.length > 0) {
+        const newCard = document.createElement('div');
+        newCard.classList.add('col-md-4');
+        newCard.innerHTML = `
+            <div class="recipe-card position-relative">
+                <h5 class="recipe-title" data-bs-toggle="modal" data-bs-target="#recipeViewModal">${title}</h5>
+                <p>Tiempo de preparación: ${time} min</p>
+                <button>
                             <span class="circle1"></span>
                             <span class="circle2"></span>
                             <span class="circle3"></span>
@@ -342,86 +373,108 @@
                             <span class="circle5"></span>
                             <span class="text">Cocinar</span>
                     </button>
-                    </div>`;
+                <i class="fas fa-edit position-absolute top-0 end-0 m-2 text-secondary" data-bs-toggle="modal" data-bs-target="#recipeDetailsModal" style="cursor: pointer;"></i>
+            </div>`;
 
-                // Guardar detalles en el atributo dataset
-                newCard.querySelector('.recipe-title').dataset.details = JSON.stringify({
-                    title,
-                    description,
-                    servings,
-                    time,
-                    ingredients: temporaryIngredients,
-                });
-
-                // Insertar antes de la tarjeta de añadir recetas
-                const addRecipeCard = document.querySelector('.add-recipe-card').parentNode;
-                recipeContainer.insertBefore(newCard, addRecipeCard);
-
-                // Limpiar formulario y lista de ingredientes
-                document.getElementById('recipeForm').reset();
-                ingredientList.innerHTML = '';
-                temporaryIngredients = [];
-
-                // Cerrar modal
-                const modal = bootstrap.Modal.getInstance(document.getElementById('recipeModal'));
-                modal.hide();
-            } else {
-                alert('Por favor, completa todos los campos requeridos y añade al menos un ingrediente.');
-            }
+        // Guardar detalles en el atributo dataset
+        newCard.querySelector('.recipe-title').dataset.details = JSON.stringify({
+            title,
+            description,
+            servings,
+            time,
+            ingredients: temporaryIngredients,
         });
 
-        // Mostrar detalles de receta en el modal de edición
-        recipeContainer.addEventListener('click', function (event) {
-            if (event.target.classList.contains('recipe-title')) {
-                const details = JSON.parse(event.target.dataset.details);
+        // Insertar antes de la tarjeta de añadir recetas
+        const addRecipeCard = document.querySelector('.add-recipe-card').parentNode;
+        recipeContainer.insertBefore(newCard, addRecipeCard);
 
-                // Rellenar el formulario de edición
-                editRecipeTitle.value = details.title;
-                editRecipeDescription.value = details.description;
-                editRecipeServings.value = details.servings;
-                editRecipeTime.value = details.time;
+        // Limpiar formulario y lista de ingredientes
+        document.getElementById('recipeForm').reset();
+        ingredientList.innerHTML = '';
+        temporaryIngredients = [];
 
-                editIngredientList.innerHTML = '';
-                details.ingredients.forEach(ingredient => {
-                    const listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item');
-                    listItem.textContent = ingredient;
-                    editIngredientList.appendChild(listItem);
-                });
+        // Cerrar modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('recipeModal'));
+        modal.hide();
+    } else {
+        alert('Por favor, completa todos los campos requeridos y añade al menos un ingrediente.');
+    }
+});
 
-                editRecipeSteps.value = details.steps || '';
+// Mostrar detalles de receta en el modal de vista
+recipeContainer.addEventListener('click', function (event) {
+    if (event.target.classList.contains('recipe-title')) {
+        const details = JSON.parse(event.target.dataset.details);
 
-                // Almacenar referencia al elemento de la tarjeta
-                saveEditedRecipeBtn.dataset.card = event.target.closest('.col-md-4').outerHTML;
-            }
+        // Rellenar el modal de vista
+        viewRecipeTitle.textContent = details.title;
+        viewRecipeDescription.textContent = details.description;
+        viewRecipeServings.textContent = details.servings;
+        viewRecipeTime.textContent = details.time;
+
+        viewIngredientList.innerHTML = '';
+        details.ingredients.forEach(ingredient => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            listItem.textContent = ingredient;
+            viewIngredientList.appendChild(listItem);
         });
 
-        // Guardar cambios en la receta desde el modal de edición
-        saveEditedRecipeBtn.addEventListener('click', function () {
-            const cardHTML = saveEditedRecipeBtn.dataset.card;
-            const cardElement = new DOMParser().parseFromString(cardHTML, 'text/html').body.firstChild;
+        viewRecipeSteps.textContent = details.steps || '';
+    }
+});
 
-            const updatedDetails = {
-                title: editRecipeTitle.value,
-                description: editRecipeDescription.value,
-                servings: editRecipeServings.value,
-                time: editRecipeTime.value,
-                ingredients: Array.from(editIngredientList.children).map(item => item.textContent),
-                steps: editRecipeSteps.value,
-            };
+// Mostrar detalles de receta en el modal de edición
+recipeContainer.addEventListener('click', function (event) {
+    if (event.target.classList.contains('fa-edit')) {
+        const details = JSON.parse(event.target.closest('.recipe-card').querySelector('.recipe-title').dataset.details);
 
-            // Actualizar tarjeta
-            cardElement.querySelector('.recipe-title').textContent = updatedDetails.title;
-            cardElement.querySelector('.recipe-title').dataset.details = JSON.stringify(updatedDetails);
-            cardElement.querySelector('p').textContent = `Tiempo de preparación: ${updatedDetails.time} min`;
+        // Rellenar el formulario de edición
+        editRecipeTitle.value = details.title;
+        editRecipeDescription.value = details.description;
+        editRecipeServings.value = details.servings;
+        editRecipeTime.value = details.time;
 
-            // Reemplazar tarjeta en el contenedor
-            recipeContainer.replaceChild(cardElement, document.querySelector(`[data-details='${saveEditedRecipeBtn.dataset.card}']`));
-
-            // Cerrar modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('recipeDetailsModal'));
-            modal.hide();
+        editIngredientList.innerHTML = '';
+        details.ingredients.forEach(ingredient => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            listItem.textContent = ingredient;
+            editIngredientList.appendChild(listItem);
         });
+
+        editRecipeSteps.value = details.steps || '';
+
+        // Almacenar referencia a los detalles en dataset
+        saveEditedRecipeBtn.dataset.details = JSON.stringify(details);
+    }
+});
+
+// Guardar cambios en la receta desde el modal de edición
+saveEditedRecipeBtn.addEventListener('click', function () {
+    const details = JSON.parse(saveEditedRecipeBtn.dataset.details);
+
+    // Actualizar los datos con los valores del formulario de edición
+    details.title = editRecipeTitle.value;
+    details.description = editRecipeDescription.value;
+    details.servings = editRecipeServings.value;
+    details.time = editRecipeTime.value;
+    details.ingredients = Array.from(editIngredientList.children).map(item => item.textContent);
+    details.steps = editRecipeSteps.value;
+
+    // Actualizar tarjeta correspondiente
+    const card = Array.from(recipeContainer.querySelectorAll('.recipe-card')).find(card =>
+        JSON.parse(card.querySelector('.recipe-title').dataset.details).title === details.title
+    );
+    card.querySelector('.recipe-title').textContent = details.title;
+    card.querySelector('.recipe-title').dataset.details = JSON.stringify(details);
+    card.querySelector('p').textContent = `Tiempo de preparación: ${details.time} min`;
+
+    // Cerrar modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('recipeDetailsModal'));
+    modal.hide();
+});
 
     </script>
 
