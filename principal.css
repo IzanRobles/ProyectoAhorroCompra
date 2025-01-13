@@ -32,23 +32,23 @@
 }
 
 .add-recipe-card {
-  border: 2px solid #000;
+  background-color: #f8f9fa;
+  border: 2px dashed #ccc;
   border-radius: 10px;
   text-align: center;
   padding: 20px;
   margin: 20px 0;
+  height: 80%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .add-recipe-card i {
   font-size: 36px;
-  color: #000;
+  color: #666;
 }
-
-
-
-
-
-
 
 
 /* From Uiverse.io by KINGFRESS */ 

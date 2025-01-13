@@ -71,7 +71,8 @@
             <!-- Tarjetas de recetas existentes -->
             <div class="col-md-4">
                 <div class="recipe-card">
-                    <h5 class="recipe-title" data-bs-toggle="modal" data-bs-target="#recipeDetailsModal">Ensalada de lentejas</h5>
+                    <h5 class="recipe-title" data-bs-toggle="modal" data-bs-target="#recipeDetailsModal">Ensalada de
+                        lentejas</h5>
                     <p>Tiempo de preparación: 15 min</p>
                     <button>
                         <span class="circle1"></span>
@@ -81,6 +82,8 @@
                         <span class="circle5"></span>
                         <span class="text">Cocinar</span>
                     </button>
+
+
                 </div>
             </div>
 
@@ -123,12 +126,16 @@
                             <label for="ingredientName" class="form-label">Ingredientes</label>
                             <div id="ingredientInputs">
                                 <div class="d-flex gap-2 mb-2">
-                                    <input type="text" class="form-control" id="ingredientName" placeholder="Nombre" required oninput="validateName(this)">
-                                    <small id="nameWarning" class="text-danger" >No se permiten números en este campo.</small>
+                                    <input type="text" class="form-control" id="ingredientName" placeholder="Nombre"
+                                        required oninput="validateName(this)">
+                                    <small id="nameWarning" class="text-danger">No se permiten números en este
+                                        campo.</small>
                                     <input type="number" class="form-control" id="ingredientQuantity"
                                         placeholder="Cantidad" required>
-                                    <input type="text" class="form-control" id="ingredientUnit" placeholder="Unidad" required oninput="validateUnit(this)">
-                                    <small id="unitWarning" class="text-danger" >Solo se permiten unidades de masa y de capacidad.</small>
+                                    <input type="text" class="form-control" id="ingredientUnit" placeholder="Unidad"
+                                        required oninput="validateUnit(this)">
+                                    <small id="unitWarning" class="text-danger">Solo se permiten unidades de masa y de
+                                        capacidad.</small>
                                 </div>
                                 <button type="button" class="btn btn-secondary" id="addIngredientBtn">Guardar
                                     Ingrediente</button>
@@ -151,32 +158,33 @@
         </div>
     </div>
 
-        <!-- Modal para detalles de receta (solo vista) -->
-        <div class="modal fade" id="recipeViewModal" tabindex="-1" aria-labelledby="recipeViewModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="recipeViewModalLabel">Detalles de Receta</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 id="viewRecipeTitle" class="fw-bold"></h5>
-                        <p id="viewRecipeDescription"></p>
-                        <p><strong>Número de personas:</strong> <span id="viewRecipeServings"></span></p>
-                        <p><strong>Tiempo de preparación:</strong> <span id="viewRecipeTime"></span> minutos</p>
-                        <h6><strong>Ingredientes:</strong></h6>
-                        <ul id="viewIngredientList" class="list-group mb-3"></ul>
-                        <h6><strong>Pasos a seguir:</strong></h6>
-                        <p id="viewRecipeSteps"></p>
-                    </div>
+    <!-- Modal para detalles de receta (solo vista) -->
+    <div class="modal fade" id="recipeViewModal" tabindex="-1" aria-labelledby="recipeViewModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeViewModalLabel">Detalles de Receta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 id="viewRecipeTitle" class="fw-bold"></h5>
+                    <p id="viewRecipeDescription"></p>
+                    <p><strong>Número de personas:</strong> <span id="viewRecipeServings"></span></p>
+                    <p><strong>Tiempo de preparación:</strong> <span id="viewRecipeTime"></span> minutos</p>
+                    <h6><strong>Ingredientes:</strong></h6>
+                    <ul id="viewIngredientList" class="list-group mb-3"></ul>
+                    <h6><strong>Pasos a seguir:</strong></h6>
+                    <p id="viewRecipeSteps"></p>
                 </div>
             </div>
         </div>
+    </div>
 
 
 
 
-<!-- Modal para detalles de receta (editable) -->
+<!-- Modal para editar receta -->
 <div class="modal fade" id="recipeDetailsModal" tabindex="-1" aria-labelledby="recipeDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -204,9 +212,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="editIngredientList" class="form-label">Ingredientes</label>
-                        <ul class="list-group" id="editIngredientList">
-                            <!-- Ingredientes existentes -->
-                        </ul>
+                        <ul class="list-group" id="editIngredientList"></ul>
+                        <div class="d-flex gap-2 mt-3">
+                            <input type="text" class="form-control" id="ingredientName" placeholder="Nombre del ingrediente" required>
+                            <input type="number" class="form-control" id="ingredientQuantity" placeholder="Cantidad" required>
+                            <input type="text" class="form-control" id="ingredientUnit" placeholder="Unidad" required>
+                            <button type="button" class="btn btn-success" id="addIngredientBtn">Añadir</button>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="editRecipeSteps" class="form-label">Pasos a seguir</label>
@@ -221,6 +233,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 
 
@@ -304,179 +320,8 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-// Referencias a elementos del DOM
-const ingredientList = document.getElementById('ingredientList');
-const addIngredientBtn = document.getElementById('addIngredientBtn');
-const recipeContainer = document.getElementById('recipeContainer');
-const saveRecipeBtn = document.getElementById('saveRecipeBtn');
-const editRecipeForm = document.getElementById('editRecipeForm');
-const editRecipeTitle = document.getElementById('editRecipeTitle');
-const editRecipeDescription = document.getElementById('editRecipeDescription');
-const editRecipeServings = document.getElementById('editRecipeServings');
-const editRecipeTime = document.getElementById('editRecipeTime');
-const editIngredientList = document.getElementById('editIngredientList');
-const editRecipeSteps = document.getElementById('editRecipeSteps');
-const saveEditedRecipeBtn = document.getElementById('saveEditedRecipeBtn');
-const viewRecipeTitle = document.getElementById('viewRecipeTitle');
-const viewRecipeDescription = document.getElementById('viewRecipeDescription');
-const viewRecipeServings = document.getElementById('viewRecipeServings');
-const viewRecipeTime = document.getElementById('viewRecipeTime');
-const viewIngredientList = document.getElementById('viewIngredientList');
-const viewRecipeSteps = document.getElementById('viewRecipeSteps');
 
-// Ingredientes temporales
-let temporaryIngredients = [];
-
-// Añadir ingrediente a la lista en el modal de crear receta
-addIngredientBtn.addEventListener('click', () => {
-    const name = document.getElementById('ingredientName').value;
-    const quantity = document.getElementById('ingredientQuantity').value;
-    const unit = document.getElementById('ingredientUnit').value;
-
-    if (name && quantity && unit) {
-        const listItem = document.createElement('li');
-        listItem.classList.add('list-group-item');
-        listItem.textContent = `${quantity} ${unit} de ${name}`;
-
-        ingredientList.appendChild(listItem);
-        temporaryIngredients.push(`${quantity} ${unit} de ${name}`);
-
-        // Limpiar los campos de entrada
-        document.getElementById('ingredientName').value = '';
-        document.getElementById('ingredientQuantity').value = '';
-        document.getElementById('ingredientUnit').value = '';
-    } else {
-        alert('Por favor, completa todos los campos del ingrediente.');
-    }
-});
-
-// Guardar receta desde el modal de crear receta
-saveRecipeBtn.addEventListener('click', function () {
-    const title = document.getElementById('recipeTitle').value;
-    const description = document.getElementById('recipeDescription').value;
-    const servings = document.getElementById('recipeServings').value;
-    const time = document.getElementById('recipeTime').value;
-
-    if (title && description && servings && time && temporaryIngredients.length > 0) {
-        const newCard = document.createElement('div');
-        newCard.classList.add('col-md-4');
-        newCard.innerHTML = `
-            <div class="recipe-card position-relative">
-                <h5 class="recipe-title" data-bs-toggle="modal" data-bs-target="#recipeViewModal">${title}</h5>
-                <p>Tiempo de preparación: ${time} min</p>
-                <button>
-                            <span class="circle1"></span>
-                            <span class="circle2"></span>
-                            <span class="circle3"></span>
-                            <span class="circle4"></span>
-                            <span class="circle5"></span>
-                            <span class="text">Cocinar</span>
-                    </button>
-                <i class="fas fa-edit position-absolute top-0 end-0 m-2 text-secondary" data-bs-toggle="modal" data-bs-target="#recipeDetailsModal" style="cursor: pointer;"></i>
-            </div>`;
-
-        // Guardar detalles en el atributo dataset
-        newCard.querySelector('.recipe-title').dataset.details = JSON.stringify({
-            title,
-            description,
-            servings,
-            time,
-            ingredients: temporaryIngredients,
-        });
-
-        // Insertar antes de la tarjeta de añadir recetas
-        const addRecipeCard = document.querySelector('.add-recipe-card').parentNode;
-        recipeContainer.insertBefore(newCard, addRecipeCard);
-
-        // Limpiar formulario y lista de ingredientes
-        document.getElementById('recipeForm').reset();
-        ingredientList.innerHTML = '';
-        temporaryIngredients = [];
-
-        // Cerrar modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('recipeModal'));
-        modal.hide();
-    } else {
-        alert('Por favor, completa todos los campos requeridos y añade al menos un ingrediente.');
-    }
-});
-
-// Mostrar detalles de receta en el modal de vista
-recipeContainer.addEventListener('click', function (event) {
-    if (event.target.classList.contains('recipe-title')) {
-        const details = JSON.parse(event.target.dataset.details);
-
-        // Rellenar el modal de vista
-        viewRecipeTitle.textContent = details.title;
-        viewRecipeDescription.textContent = details.description;
-        viewRecipeServings.textContent = details.servings;
-        viewRecipeTime.textContent = details.time;
-
-        viewIngredientList.innerHTML = '';
-        details.ingredients.forEach(ingredient => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('list-group-item');
-            listItem.textContent = ingredient;
-            viewIngredientList.appendChild(listItem);
-        });
-
-        viewRecipeSteps.textContent = details.steps || '';
-    }
-});
-
-// Mostrar detalles de receta en el modal de edición
-recipeContainer.addEventListener('click', function (event) {
-    if (event.target.classList.contains('fa-edit')) {
-        const details = JSON.parse(event.target.closest('.recipe-card').querySelector('.recipe-title').dataset.details);
-
-        // Rellenar el formulario de edición
-        editRecipeTitle.value = details.title;
-        editRecipeDescription.value = details.description;
-        editRecipeServings.value = details.servings;
-        editRecipeTime.value = details.time;
-
-        editIngredientList.innerHTML = '';
-        details.ingredients.forEach(ingredient => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('list-group-item');
-            listItem.textContent = ingredient;
-            editIngredientList.appendChild(listItem);
-        });
-
-        editRecipeSteps.value = details.steps || '';
-
-        // Almacenar referencia a los detalles en dataset
-        saveEditedRecipeBtn.dataset.details = JSON.stringify(details);
-    }
-});
-
-// Guardar cambios en la receta desde el modal de edición
-saveEditedRecipeBtn.addEventListener('click', function () {
-    const details = JSON.parse(saveEditedRecipeBtn.dataset.details);
-
-    // Actualizar los datos con los valores del formulario de edición
-    details.title = editRecipeTitle.value;
-    details.description = editRecipeDescription.value;
-    details.servings = editRecipeServings.value;
-    details.time = editRecipeTime.value;
-    details.ingredients = Array.from(editIngredientList.children).map(item => item.textContent);
-    details.steps = editRecipeSteps.value;
-
-    // Actualizar tarjeta correspondiente
-    const card = Array.from(recipeContainer.querySelectorAll('.recipe-card')).find(card =>
-        JSON.parse(card.querySelector('.recipe-title').dataset.details).title === details.title
-    );
-    card.querySelector('.recipe-title').textContent = details.title;
-    card.querySelector('.recipe-title').dataset.details = JSON.stringify(details);
-    card.querySelector('p').textContent = `Tiempo de preparación: ${details.time} min`;
-
-    // Cerrar modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('recipeDetailsModal'));
-    modal.hide();
-});
-
-    </script>
+    <script src="js/script.js"></script>
 
     <script>
         function validateName(input) {
@@ -494,9 +339,12 @@ saveEditedRecipeBtn.addEventListener('click', function () {
 
     <script>
         function validateUnit(input) {
-            const allowedUnits = ['kg','kilogramo','kilogramos', 'hg','hectogramo','hectogramos','dag','decagramo','decagramos','g','gramo','gramos','dg','decigramo','decigramos','cg','centigramo','centigramos','mg','miligramo','miligramos','kl','kilolitro','kilolitros','hl','hectolitro','hectolitros','dal','decalitro','decalitros','l','litro','litros','dl','decilitro','decilitros','cl','centilitro','centilitros','ml','mililitro','mililitros']; 
+            const allowedUnits = ['kg', 'kilogramo', 'kilogramos', 'KG', 'hg', 'hectogramo', 'hectogramos', 'HG', 'dag', 'decagramo', 'decagramos', 'DAG', 'g', 'gramo', 'gramos', 'G'
+                , 'dg', 'decigramo', 'decigramos', 'DG', 'cg', 'centigramo', 'centigramos', 'CG', 'mg', 'miligramo', 'miligramos', 'MG', 'kl', 'kilolitro', 'kilolitros', 'KL', 'hl', 'hectolitro'
+                , 'hectolitros', 'HL', 'dal', 'decalitro', 'decalitros', 'DAL', 'l', 'litro', 'litros', 'dl', 'decilitro', 'decilitros', 'DL', 'cl', 'centilitro', 'centilitros', 'CL', 'ml', 'mililitro'
+                , 'mililitros', 'ML'];
             const warning = document.getElementById('unitWarning');
-            
+
             if (!allowedUnits.includes(input.value.trim())) {
                 warning.style.display = 'block';
             } else {
