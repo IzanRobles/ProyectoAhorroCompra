@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
+    const nameInput = document.getElementById("input-registro-nombre");
+    const lastNameInput = document.getElementById("input-registro-apellidos");
     const emailInput = document.getElementById("input-registro-email");
     const passwordInput = document.getElementById("input-registro-contraseña");
     const confirmPasswordInput = document.getElementById("input-registro-confirmar-contraseña");
@@ -29,18 +31,34 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault(); // Prevenir el envío del formulario
 
         // Limpiar errores previos
+        clearError(nameInput);
+        clearError(lastNameInput);
         clearError(emailInput);
         clearError(passwordInput);
         clearError(confirmPasswordInput);
 
+        const name = nameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
         const email = emailInput.value.trim();
         const password = passwordInput.value;
         const confirmPassword = confirmPasswordInput.value;
         let hasError = false;
 
+        // Validar nombre
+        if (name === "") {
+            showError(nameInput, "El nombre es obligatorio.");
+            hasError = true;
+        }
+
+        // Validar apellidos
+        if (lastName === "") {
+            showError(lastNameInput, "Los apellidos son obligatorios.");
+            hasError = true;
+        }
+
         // Validar correo electrónico
         if (!validateEmail(email)) {
-            showError(emailInput, "Por favor, ingresa un correo electrónico válido.");
+            showError(emailInput, "El correo electrónico debe incluir un '@' y un dominio válido.");
             hasError = true;
         }
 
