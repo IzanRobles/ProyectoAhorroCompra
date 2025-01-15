@@ -60,7 +60,7 @@ saveRecipeBtn.addEventListener('click', () => {
         };
 
         newCard.innerHTML = `
-            <div class="recipe-card position-relative">
+            <div class="recipe-card position-absolute">
                 <h5 class="recipe-title" data-details='${JSON.stringify(recipeDetails)}' data-bs-toggle="modal" data-bs-target="#recipeViewModal">${title}</h5>
                 <p>Tiempo de preparación: ${time} min</p>
                 <button>
@@ -204,6 +204,7 @@ function guardarReceta() {
     })
     .then(data => {
       console.log('Respuesta del servidor:', data); // AquÃ­ procesamos la respuesta del servidor
+      location.reload();
     })
     .catch(error => {
       console.error('Error durante la peticiÃ³n:', error); // Manejo de errores
@@ -237,7 +238,7 @@ window.onload = function obtenerRecetas() {
         });  
 };
 
-const recetas = obtenerRecetas()
+//const recetas = obtenerRecetas()
 // Función para mostrar las recetas en la página
 function mostrarRecetas(recetas) {
     
@@ -255,7 +256,7 @@ function mostrarRecetas(recetas) {
             recetaCol.classList.add('col-md-4');
 
             const recetaCard = document.createElement('div');
-            recetaCard.classList.add('recipe-card');
+            recetaCard.classList.add('recipe-card','position-relative');
 
             const recetaTitle = document.createElement('h5');
             recetaTitle.classList.add('recipe-title');
@@ -291,10 +292,24 @@ function mostrarRecetas(recetas) {
             botonCocinar.appendChild(circle5);
             botonCocinar.appendChild(buttonText);
 
+            //Botones de editar y eliminar
+
+            const botonEditar = document.createElement('i');
+            botonEditar.classList.add('fas','fa-edit','position-absolute','top-0','end-0','m-2','text-secondary');
+            botonEditar.setAttribute("data-bs-toggle","modal");
+            botonEditar.setAttribute('data-bs-target','#recipeDetailsModal');
+            botonEditar.setAttribute("style","cursor: pointer;");
+
+            const botonEliminar = document.createElement('i');
+            botonEliminar.classList.add("fas", "fa-trash-alt", "delete-recipe", "position-absolute", "top-0", "start-0", "m-2", "text-danger");
+            botonEliminar.setAttribute("style","cursor: pointer;")
+
             // Añadimos los elementos al card
             recetaCard.appendChild(recetaTitle);
             recetaCard.appendChild(tiempoPrep);
             recetaCard.appendChild(botonCocinar);
+            recetaCard.appendChild(botonEditar);
+            recetaCard.appendChild(botonEliminar);
 
             // Añadimos la recetaCard al contenedor de la columna
             recetaCol.appendChild(recetaCard);
@@ -302,7 +317,22 @@ function mostrarRecetas(recetas) {
             // Finalmente, añadimos la columna al contenedor principal
             recipeContainer.appendChild(recetaCol);
         });
-    } else {
-        recipeContainer.innerHTML = '<p>No tienes recetas.</p>';
+
+
+        
     }
+        const containerAnade = document.createElement('div');
+        containerAnade.classList.add('col-md-4');
+
+        const cartaAnade = document.createElement('div');
+        cartaAnade.classList.add("add-recipe-card");
+        cartaAnade.setAttribute('data-bs-toggle', 'modal');
+        cartaAnade.setAttribute('data-bs-target', '#recipeModal');
+
+        const icono = document.createElement('i');
+        icono.classList.add('fas', 'fa-plus');
+        cartaAnade.appendChild(icono);
+        containerAnade.appendChild(cartaAnade);
+        recipeContainer.appendChild(containerAnade); 
+    
 }
