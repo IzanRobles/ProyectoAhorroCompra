@@ -169,3 +169,140 @@ saveEditedRecipeBtn.addEventListener('click', () => {
 
     bootstrap.Modal.getInstance(document.getElementById('recipeDetailsModal')).hide();
 });
+
+
+
+function guardarReceta() {
+    const data = {
+        nombre: $('#recipeTitle').val().trim(),
+        descripcion: $('#recipeDescription').val().trim(),
+        tiempo_de_preparacion: $('#recipeTime').val().trim(),
+        num_personas: $('#recipeServings').val().trim(),
+        pasos: $('#recipeSteps').val().trim(),
+        /*
+        ingredientes: temporaryIngredients.map(ingredient => ({
+            ingrediente: ingredient.name,
+            cantidad: ingredient.quantity,
+            unidades: ingredient.unit
+        }))
+        */
+    };
+
+    fetch('http://localhost:8080/api/recetas/create?id_usuario=1', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+        
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor');
+    }
+      return response; // Convertimos la respuesta en formato JSON
+    })
+    .then(data => {
+      console.log('Respuesta del servidor:', data); // AquÃ­ procesamos la respuesta del servidor
+    })
+    .catch(error => {
+      console.error('Error durante la peticiÃ³n:', error); // Manejo de errores
+    });
+
+    /*.then(response => response.json())
+        .then(data => {
+            console.log('Receta creada:', data);
+        })
+        .catch(error => {
+            console.error('Error al crear la receta:', error);
+        });
+    */ 
+};
+window.onload = function obtenerRecetas() {  
+    fetch('http://localhost:8080/api/recetas/getRecetas?id_usuario=1', {  
+        method: 'GET'  // Aquí se especifica correctamente el método de la petición  
+    })  
+        .then(response => {  
+            if (!response.ok) {  
+                throw new Error('Error en la respuesta del servidor');  
+            }  
+            return response.json();  // Convertimos la respuesta en formato JSON  
+        })  
+        .then(data => {  
+            console.log('Recetas obtenidas:', data);  // Aquí procesamos la respuesta del servidor  
+            mostrarRecetas(data);
+        })  
+        .catch(error => {  
+            console.error('Error durante la petición:', error);  // Manejo de errores  
+        });  
+};
+
+const recetas = obtenerRecetas()
+// Función para mostrar las recetas en la página
+function mostrarRecetas(recetas) {
+    
+    // Accedemos al contenedor de recetas
+    const recipeContainer = document.getElementById('recipeContainer');
+
+    // Limpiamos el contenedor para no duplicar las recetas
+    recipeContainer.innerHTML = '';
+
+    // Verificamos si hay recetas y las mostramos
+    if (recetas && recetas.length > 0) {
+        recetas.forEach(function(receta) {
+            // Creamos el contenedor div para cada receta
+            const recetaCol = document.createElement('div');
+            recetaCol.classList.add('col-md-4');
+
+            const recetaCard = document.createElement('div');
+            recetaCard.classList.add('recipe-card');
+
+            const recetaTitle = document.createElement('h5');
+            recetaTitle.classList.add('recipe-title');
+            recetaTitle.setAttribute('data-bs-toggle', 'modal');
+            recetaTitle.setAttribute('data-bs-target', '#recipeDetailsModal');
+            recetaTitle.textContent = receta.nombre; // Nombre de la receta
+
+            const tiempoPrep = document.createElement('p');
+            tiempoPrep.textContent = `Tiempo de preparación: ${receta.tiempo_de_preparacion} min`;
+
+            const botonCocinar = document.createElement('button');
+
+            const circle1 = document.createElement('span');
+            circle1.classList.add('circle1');
+            const circle2 = document.createElement('span');
+            circle2.classList.add('circle2');
+            const circle3 = document.createElement('span');
+            circle3.classList.add('circle3');
+            const circle4 = document.createElement('span');
+            circle4.classList.add('circle4');
+            const circle5 = document.createElement('span');
+            circle5.classList.add('circle5');
+
+            const buttonText = document.createElement('span');
+            buttonText.classList.add('text');
+            buttonText.textContent = 'Cocinar';
+
+            // Añadimos los elementos al botón
+            botonCocinar.appendChild(circle1);
+            botonCocinar.appendChild(circle2);
+            botonCocinar.appendChild(circle3);
+            botonCocinar.appendChild(circle4);
+            botonCocinar.appendChild(circle5);
+            botonCocinar.appendChild(buttonText);
+
+            // Añadimos los elementos al card
+            recetaCard.appendChild(recetaTitle);
+            recetaCard.appendChild(tiempoPrep);
+            recetaCard.appendChild(botonCocinar);
+
+            // Añadimos la recetaCard al contenedor de la columna
+            recetaCol.appendChild(recetaCard);
+
+            // Finalmente, añadimos la columna al contenedor principal
+            recipeContainer.appendChild(recetaCol);
+        });
+    } else {
+        recipeContainer.innerHTML = '<p>No tienes recetas.</p>';
+    }
+}

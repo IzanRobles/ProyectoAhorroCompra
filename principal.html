@@ -68,7 +68,7 @@
         </div>
 
         <div class="row mt-4" id="recipeContainer">
-            <!-- Tarjetas de recetas existentes -->
+            <!-- Tarjetas de recetas existentes 
             <div class="col-md-4">
                 <div class="recipe-card">
                     <h5 class="recipe-title" data-bs-toggle="modal" data-bs-target="#recipeDetailsModal">Ensalada de
@@ -86,6 +86,7 @@
 
                 </div>
             </div>
+        -->
 
             <!-- Tarjeta para añadir recetas -->
             <div class="col-md-4">
@@ -105,7 +106,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="recipeForm">
+                    <form id="recipeForm" method="post">
                         <div class="mb-3">
                             <label for="recipeTitle" class="form-label">Título</label>
                             <input type="text" class="form-control" id="recipeTitle" required>
@@ -152,7 +153,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="saveRecipeBtn">Guardar</button>
+                    <button type="submit" class="btn btn-primary" id="saveRecipeBtn" onclick=guardarReceta()>Guardar</button>
                 </div>
             </div>
         </div>
@@ -318,6 +319,7 @@
     </footer>
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
