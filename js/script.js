@@ -3,7 +3,13 @@ const recipeContainer = document.getElementById('recipeContainer');
 const saveRecipeBtn = document.getElementById('saveRecipeBtn');
 const saveEditedRecipeBtn = document.getElementById('saveEditedRecipeBtn');
 const addIngredientBtn = document.getElementById('addIngredientBtn');
-const botonPapelera = document.getElementsByClassName('delete-recipe')
+const botonPapelera = document.getElementsByClassName('delete-recipe');
+let modalEditar = new bootstrap.Modal(document.getElementById('recipeDetailsModal'));
+
+
+const urlParams = new URLSearchParams(window.location.search);
+const userId = urlParams.get('id');
+let recetas = {};
 
 let temporaryIngredients = [];
 
@@ -19,6 +25,8 @@ function repositionAddRecipeCard() {
 }
 
 // Añadir ingrediente
+
+/*
 addIngredientBtn.addEventListener('click', () => {
     const name = document.getElementById('ingredientName').value.trim();
     const quantity = document.getElementById('ingredientQuantity').value.trim();
@@ -40,6 +48,7 @@ addIngredientBtn.addEventListener('click', () => {
         alert('Por favor, completa todos los campos del ingrediente.');
     }
 });
+*/
 /*
 // Guardar receta desde el modal de crear receta
 saveRecipeBtn.addEventListener('click', () => {
@@ -90,6 +99,8 @@ saveRecipeBtn.addEventListener('click', () => {
 });
 */
 // Mostrar detalles en el modal de vista
+
+/*
 recipeContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('recipe-title')) {
         const details = JSON.parse(event.target.dataset.details);
@@ -112,10 +123,51 @@ recipeContainer.addEventListener('click', (event) => {
         document.getElementById('viewRecipeSteps').textContent = details.steps || 'Sin pasos adicionales';
     }
 });
+*/
+
+function formEditarReceta(id_receta){
+    document.getElementById('editRecipeTitle').value = recetas[id_receta].nombre;
+    document.getElementById('editRecipeDescription').value = recetas[id_receta].descripcion;
+    document.getElementById('editRecipeServings').value = recetas[id_receta].num_personas;
+    document.getElementById('editRecipeTime').value = recetas[id_receta].tiempo_de_preparacion;
+    document.getElementById('editRecipeSteps').value = recetas[id_receta].pasos;
+
+    document.getElementById('saveEditedRecipeBtn').addEventListener('click', () =>{
+        const data = {
+            nombre: document.getElementById('editRecipeTitle').value.trim(),
+            descripcion: document.getElementById('editRecipeDescription').value.trim(),
+            tiempo_de_preparacion: document.getElementById('editRecipeTime').value.trim(),
+            num_personas: document.getElementById('editRecipeServings').value.trim(),
+            pasos: document.getElementById('editRecipeSteps').value.trim(),
+        };
+        console.log("receta Actualizada: " + data)
+        updateReceta(id_receta, data)
+    })
+
+    modalEditar.show();
+}
 
 
-function editarReceta(id_receta){
-    
+function updateReceta(id_receta, receta){
+    const url = 'http://localhost:8080/api/recetas/update?id=' + id_receta;
+        fetch(url, {  
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(receta)  
+        })  
+            .then(response => {  
+                if (!response.ok) {  
+                    throw new Error('Error en la respuesta del servidor');  
+                }  
+               // location.reload();;  
+            })  
+              
+            .catch(error => {  
+                console.error('Error durante la petición:', error);  
+            }); 
+
 }
 
 // Manejar el borrado de recetas
@@ -124,7 +176,8 @@ function eliminarReceta(id_receta){
     if (confirm('¿Estás seguro de que deseas borrar esta receta?')) {
         const url = 'http://localhost:8080/api/recetas/delete?id=' + id_receta;
         fetch(url, {  
-            method: 'DELETE'  
+            method: 'DELETE'
+              
         })  
             .then(response => {  
                 if (!response.ok) {  
@@ -142,6 +195,8 @@ function eliminarReceta(id_receta){
 
 
 // Mostrar detalles en el modal de edición
+
+/*
 recipeContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('fa-edit')) {
         const card = event.target.closest('.recipe-card');
@@ -169,6 +224,8 @@ recipeContainer.addEventListener('click', (event) => {
 });
 
 // Guardar cambios en receta desde el modal de edición
+
+/*
 saveEditedRecipeBtn.addEventListener('click', () => {
     const updatedDetails = {
         title: document.getElementById('editRecipeTitle').value.trim(),
@@ -188,7 +245,7 @@ saveEditedRecipeBtn.addEventListener('click', () => {
 
     bootstrap.Modal.getInstance(document.getElementById('recipeDetailsModal')).hide();
 });
-
+*/
 
 
 function guardarReceta() {
@@ -200,7 +257,7 @@ function guardarReceta() {
         pasos: $('#recipeSteps').val().trim(),
     };
 
-    fetch('http://localhost:8080/api/recetas/create?id_usuario=1', {
+    fetch(`http://localhost:8080/api/recetas/create?id_usuario=${userId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -217,7 +274,7 @@ function guardarReceta() {
     })
     .then(data => {
       console.log('Respuesta del servidor:', data); 
-      receta_a_Ingrediente()
+      receta_a_Ingrediente_añadir()
       //location.reload();
     })
     .catch(error => {
@@ -227,10 +284,24 @@ function guardarReceta() {
     
 };
 
-function receta_a_Ingrediente(){
+function receta_a_Ingrediente_añadir(){
     const formIngredientes = document.getElementById("form-ingredientes");
     const formRecetas = document.getElementById('form-recetas');
     const botonFormulario =  document.getElementById('saveRecipeBtn');
+    formRecetas.classList.add('d-none');
+    formIngredientes.classList.remove('d-none');
+    botonFormulario.textContent = "Guardar";
+    botonFormulario.removeAttribute("onclick");
+
+    botonFormulario.onclick = function() {
+        location.reload(); 
+    }
+}
+
+function receta_a_Ingrediente_editar(){
+    const formIngredientes = document.getElementById("editarIngredientes");
+    const formRecetas = document.getElementById('editarReceta');
+    const botonFormulario =  document.getElementById('saveEditedRecipeBtn');
     formRecetas.classList.add('d-none');
     formIngredientes.classList.remove('d-none');
     botonFormulario.textContent = "Guardar";
@@ -264,8 +335,7 @@ function receta_a_Ingrediente(){
 
 window.onload = function obtenerRecetas() {  
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('id');
+    
     console.log(`ID del usuario: ${userId}`);
 
     fetch(`http://localhost:8080/api/recetas/getRecetas?id_usuario=${userId}`, {  
@@ -278,8 +348,13 @@ window.onload = function obtenerRecetas() {
             return response.json();  // Convertimos la respuesta en formato JSON  
         })  
         .then(data => {  
-            console.log('Recetas obtenidas:', data);  // Aquí procesamos la respuesta del servidor  
+            console.log('Recetas obtenidas:', data);  // Aquí procesamos la respuesta del servidor 
+            recetas = data.reduce((acc, receta) => {
+                acc[receta.id] = receta;
+                return acc;
+            }, {});
             mostrarRecetas(data);
+            console.log('Recetas obtenidas:', recetas);
         })  
         .catch(error => {  
             console.error('Error durante la petición:', error);  // Manejo de errores  
@@ -345,11 +420,11 @@ function mostrarRecetas(recetas) {
             const botonEditar = document.createElement('i');
             botonEditar.classList.add('fas','fa-edit','position-absolute','top-0','end-0','m-2','text-secondary');
             botonEditar.setAttribute("data-bs-toggle","modal");
-            botonEditar.setAttribute('data-bs-target','#recipeDetailsModal');
+            //botonEditar.setAttribute('data-bs-target','#recipeDetailsModal');
             botonEditar.setAttribute("style","cursor: pointer;");
             botonEditar.id = receta.id
             botonEditar.addEventListener('click', () =>{
-                editarReceta(receta.id)
+                formEditarReceta(receta.id)
             })   
 
             const botonEliminar = document.createElement('i');
