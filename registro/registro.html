@@ -14,7 +14,9 @@
 
         <!--NOMBRE DE LA APP-->
 
-        <div class="h1 text-center mt-3">(NOMBRE DE LA APP)</div>
+        <div class="h1 text-center mt-3">
+            <a class="navbar-brand fw-bold" href="index.html">Porci<span class="letra-verde">ó</span>n exacta</a>
+        </div>
 
         <!-- CIRCULO-->
 
@@ -65,7 +67,7 @@
                     </div>
                     <div class="row mx-0 p-0 mt-4 mb-4 text-center justify-content-center col-md-12">
                         <button class="btn mx-0 fondo-verde mb-2 col-sm-9 offset-sm-2 col-md-6 offset-md-0 order-md-1"
-                            type="submit">Crear cuenta</button>
+                            type="submit" onclick=registrarUsuario()>Crear cuenta</button>
                         <span class="col-md-6 order-md-0"><a href="../login/login.html" class="link-dark">Iniciar sesión</a></span>
                     </div>
                 </form>
@@ -88,9 +90,8 @@
 
 
 
-
-    <script src="../js/validacionesRegistro.js"></script>
-    <script src="../js/script.js"></script>
+    <script src="registro.js"></script>
+    <script src="../js/validacionesRegistro.js"></script>       
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
