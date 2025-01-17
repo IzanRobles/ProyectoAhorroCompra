@@ -110,7 +110,7 @@
                 <div class="modal-body">
 
                     <!-- FORM RECETA -->
-                    <div id="form-receta" class="d-none">
+                    <div id="form-recetas" class="">
                         <form id="recipeForm" method="post">
                             <div class="mb-3">
                                 <label for="recipeTitle" class="form-label">Título</label>
@@ -137,7 +137,7 @@
 
                 <!--FORM INGREDIENTES -->
 
-                <div id="form-ingredientes" class="mb-3 ">
+                <div id="form-ingredientes" class="mb-3 d-none">
                     <label for="ingredientName" class="form-label">Ingredientes</label>
                     <div id="ingredientInputs">
                         <div class="d-flex gap-2 mb-2">
@@ -166,7 +166,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary" id="saveRecipeBtn"
-                        onclick=guardarReceta()>Guardar</button>
+                        onclick=guardarReceta()>Siguiente</button>
                 </div>
             </div>
         </div>

@@ -198,13 +198,6 @@ function guardarReceta() {
         tiempo_de_preparacion: $('#recipeTime').val().trim(),
         num_personas: $('#recipeServings').val().trim(),
         pasos: $('#recipeSteps').val().trim(),
-        /*
-        ingredientes: temporaryIngredients.map(ingredient => ({
-            ingrediente: ingredient.name,
-            cantidad: ingredient.quantity,
-            unidades: ingredient.unit
-        }))
-        */
     };
 
     fetch('http://localhost:8080/api/recetas/create?id_usuario=1', {
@@ -219,25 +212,39 @@ function guardarReceta() {
         if (!response.ok) {
             throw new Error('Error en la respuesta del servidor');
     }
-      return response; // Convertimos la respuesta en formato JSON
+      return response;
+      
     })
     .then(data => {
-      console.log('Respuesta del servidor:', data); // AquÃ­ procesamos la respuesta del servidor
-      location.reload();
+      console.log('Respuesta del servidor:', data); 
+      receta_a_Ingrediente()
+      //location.reload();
     })
     .catch(error => {
-      console.error('Error durante la peticiÃ³n:', error); // Manejo de errores
+      console.error('Error durante la peticiÃ³n:', error);
     });
-
-    /*.then(response => response.json())
-        .then(data => {
-            console.log('Receta creada:', data);
-        })
-        .catch(error => {
-            console.error('Error al crear la receta:', error);
-        });
-    */ 
+    
+    
 };
+
+function receta_a_Ingrediente(){
+    const formIngredientes = document.getElementById("form-ingredientes");
+    const formRecetas = document.getElementById('form-recetas');
+    const botonFormulario =  document.getElementById('saveRecipeBtn');
+    formRecetas.classList.add('d-none');
+    formIngredientes.classList.remove('d-none');
+    botonFormulario.textContent = "Guardar";
+    botonFormulario.removeAttribute("onclick");
+
+    botonFormulario.onclick = function() {
+        location.reload(); 
+    }
+}
+
+
+
+
+
 window.onload = function obtenerRecetas() {  
     fetch('http://localhost:8080/api/recetas/getRecetas?id_usuario=1', {  
         method: 'GET'  // Aquí se especifica correctamente el método de la petición  
