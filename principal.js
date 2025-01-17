@@ -10,3 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("No se encontró la ID del usuario en la URL.");
     }
 });
+
+
+
+
+
