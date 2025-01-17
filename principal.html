@@ -106,52 +106,63 @@
                     <h5 class="modal-title" id="recipeModalLabel">Crear Receta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
-                    <form id="recipeForm" method="post">
-                        <div class="mb-3">
-                            <label for="recipeTitle" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="recipeTitle" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="recipeDescription" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="recipeDescription" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="recipeServings" class="form-label">Número de personas</label>
-                            <input type="number" class="form-control" id="recipeServings" min="1" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="recipeTime" class="form-label">Tiempo de preparación (minutos)</label>
-                            <input type="number" class="form-control" id="recipeTime" min="1" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ingredientName" class="form-label">Ingredientes</label>
-                            <div id="ingredientInputs">
-                                <div class="d-flex gap-2 mb-2">
-                                    <input type="text" class="form-control" id="ingredientName" placeholder="Nombre"
-                                        required oninput="validateName(this)">
-                                    <small id="nameWarning" class="text-danger">No se permiten números en este
-                                        campo.</small>
-                                    <input type="number" class="form-control" id="ingredientQuantity"
-                                        placeholder="Cantidad" required>
-                                    <input type="text" class="form-control" id="ingredientUnit" placeholder="Unidad"
-                                        required oninput="validateUnit(this)">
-                                    <small id="unitWarning" class="text-danger">Solo se permiten unidades de masa y de
-                                        capacidad.</small>
-                                </div>
-                                <button type="button" class="btn btn-secondary" id="addIngredientBtn">Guardar
-                                    Ingrediente</button>
+
+                    <!-- FORM RECETA -->
+                    <div id="form-receta" class="d-none">
+                        <form id="recipeForm" method="post">
+                            <div class="mb-3">
+                                <label for="recipeTitle" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="recipeTitle" required>
                             </div>
-                            <ul class="list-group mt-3" id="ingredientList">
-                                <!-- Lista de ingredientes -->
-                            </ul>
+                            <div class="mb-3">
+                                <label for="recipeDescription" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="recipeDescription" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipeServings" class="form-label">Número de personas</label>
+                                <input type="number" class="form-control" id="recipeServings" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipeTime" class="form-label">Tiempo de preparación (minutos)</label>
+                                <input type="number" class="form-control" id="recipeTime" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipeSteps" class="form-label">Pasos a seguir (opcional)</label>
+                                <textarea class="form-control" id="recipeSteps" rows="3"></textarea>
+                            </div>
+                    
+                </div>
+
+                <!--FORM INGREDIENTES -->
+
+                <div id="form-ingredientes" class="mb-3 ">
+                    <label for="ingredientName" class="form-label">Ingredientes</label>
+                    <div id="ingredientInputs">
+                        <div class="d-flex gap-2 mb-2">
+                            <input type="text" class="form-control" id="ingredientName" placeholder="Nombre" required
+                                oninput="validateName(this)">
+                            <small id="nameWarning" class="text-danger">No se permiten números en este
+                                campo.</small>
+                            <input type="number" class="form-control" id="ingredientQuantity" placeholder="Cantidad"
+                                required>
+                            <input type="text" class="form-control" id="ingredientUnit" placeholder="Unidad" required
+                                oninput="validateUnit(this)">
+                            <small id="unitWarning" class="text-danger">Solo se permiten unidades de masa y de
+                                capacidad.</small>
                         </div>
-                        <div class="mb-3">
-                            <label for="recipeSteps" class="form-label">Pasos a seguir (opcional)</label>
-                            <textarea class="form-control" id="recipeSteps" rows="3"></textarea>
-                        </div>
+                        <button type="button" class="btn btn-secondary" id="addIngredientBtn">Guardar
+                            Ingrediente</button>
+                    </div>
+                    <ul class="list-group mt-3" id="ingredientList">
+                        <!-- Lista de ingredientes -->
+                    </ul>
                     </form>
                 </div>
+            </div>
+
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary" id="saveRecipeBtn"

@@ -3,6 +3,7 @@ const recipeContainer = document.getElementById('recipeContainer');
 const saveRecipeBtn = document.getElementById('saveRecipeBtn');
 const saveEditedRecipeBtn = document.getElementById('saveEditedRecipeBtn');
 const addIngredientBtn = document.getElementById('addIngredientBtn');
+const botonPapelera = document.getElementsByClassName('delete-recipe')
 
 let temporaryIngredients = [];
 
@@ -39,7 +40,7 @@ addIngredientBtn.addEventListener('click', () => {
         alert('Por favor, completa todos los campos del ingrediente.');
     }
 });
-
+/*
 // Guardar receta desde el modal de crear receta
 saveRecipeBtn.addEventListener('click', () => {
     const title = document.getElementById('recipeTitle').value.trim();
@@ -87,7 +88,7 @@ saveRecipeBtn.addEventListener('click', () => {
         alert('Completa todos los campos y añade al menos un ingrediente.');
     }
 });
-
+*/
 // Mostrar detalles en el modal de vista
 recipeContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('recipe-title')) {
@@ -112,15 +113,33 @@ recipeContainer.addEventListener('click', (event) => {
     }
 });
 
+
+function editarReceta(id_receta){
+    
+}
+
 // Manejar el borrado de recetas
-recipeContainer.addEventListener('click', (event) => {
-    if (event.target.classList.contains('delete-recipe')) {
-        if (confirm('¿Estás seguro de que deseas borrar esta receta?')) {
-            event.target.closest('.recipe-card').remove();
-            repositionAddRecipeCard();
-        }
+function eliminarReceta(id_receta){
+   
+    if (confirm('¿Estás seguro de que deseas borrar esta receta?')) {
+        const url = 'http://localhost:8080/api/recetas/delete?id=' + id_receta;
+        fetch(url, {  
+            method: 'DELETE'  
+        })  
+            .then(response => {  
+                if (!response.ok) {  
+                    throw new Error('Error en la respuesta del servidor');  
+                }  
+                location.reload();;  
+            })  
+              
+            .catch(error => {  
+                console.error('Error durante la petición:', error);  
+            });  
     }
-});
+};
+
+
 
 // Mostrar detalles en el modal de edición
 recipeContainer.addEventListener('click', (event) => {
@@ -299,10 +318,19 @@ function mostrarRecetas(recetas) {
             botonEditar.setAttribute("data-bs-toggle","modal");
             botonEditar.setAttribute('data-bs-target','#recipeDetailsModal');
             botonEditar.setAttribute("style","cursor: pointer;");
+            botonEditar.id = receta.id
+            botonEditar.addEventListener('click', () =>{
+                editarReceta(receta.id)
+            })   
 
             const botonEliminar = document.createElement('i');
             botonEliminar.classList.add("fas", "fa-trash-alt", "delete-recipe", "position-absolute", "top-0", "start-0", "m-2", "text-danger");
             botonEliminar.setAttribute("style","cursor: pointer;")
+            botonEliminar.id = receta.id
+            botonEliminar.addEventListener('click',() => {
+                eliminarReceta(receta.id)
+            })
+            
 
             // Añadimos los elementos al card
             recetaCard.appendChild(recetaTitle);
