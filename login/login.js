@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await response.json();
                 
                 // Redirigir con la ID del usuario como parámetro en la URL
-                window.location.href = `http://127.0.0.1:5501/principal.html?id=${result.id}`;
+                window.location.href = `http://127.0.0.1:5500/principal.html?id=${result.id}`;
 
 
             } else if (response.status === 401) {

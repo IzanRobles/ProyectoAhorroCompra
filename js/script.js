@@ -10,6 +10,7 @@ let modalEditar = new bootstrap.Modal(document.getElementById('recipeDetailsModa
 const urlParams = new URLSearchParams(window.location.search);
 const userId = urlParams.get('id');
 let recetas = {};
+let ingredientes = {};
 
 let temporaryIngredients = [];
 
@@ -26,29 +27,67 @@ function repositionAddRecipeCard() {
 
 // Añadir ingrediente
 
-/*
-addIngredientBtn.addEventListener('click', () => {
-    const name = document.getElementById('ingredientName').value.trim();
-    const quantity = document.getElementById('ingredientQuantity').value.trim();
-    const unit = document.getElementById('ingredientUnit').value.trim();
 
-    if (name && quantity && unit) {
-        const ingredientList = document.getElementById('ingredientList');
+function añadirIngrediente(id_receta){
+   /* const nombreIng = ;
+    const cantidadIng = ;
+    const unidadesIng = ;
+*/
+
+
+        const ingrediente_a_añadir = {
+            ingrediente: document.getElementById('ingredientName').value.trim(),
+            cantidad: document.getElementById('ingredientQuantity').value.trim(),
+            unidades: document.getElementById('ingredientUnit').value.trim(),
+        };
+        console.log("Ingrediente: ", ingrediente_a_añadir)
+    
+        fetch(`http://localhost:8080/api/ingredientes/create?id_receta=${id_receta}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ingrediente_a_añadir)
+            
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.log("Ingrediente: ", ingrediente_a_añadir)
+                throw new Error('Error en la respuesta del servidor');
+        }
+          return response;
+          
+        })
+        /*
+        .then(data => {
+          console.log('Respuesta del servidor:', data); 
+          receta_a_Ingrediente_añadir()
+          //location.reload();
+        })
+        .catch(error => {
+          console.error('Error durante la peticiÃ³n:', error);
+        });
+        */
+        
+    
+    
+
+        /*const ingredientList = document.getElementById('ingredientList');
         const listItem = document.createElement('li');
         listItem.classList.add('list-group-item');
         listItem.textContent = `${quantity} ${unit} de ${name}`;
         ingredientList.appendChild(listItem);
         temporaryIngredients.push(`${quantity} ${unit} de ${name}`);
-
+*/
         // Limpiar campos
         document.getElementById('ingredientName').value = '';
         document.getElementById('ingredientQuantity').value = '';
         document.getElementById('ingredientUnit').value = '';
-    } else {
-        alert('Por favor, completa todos los campos del ingrediente.');
-    }
-});
-*/
+}
+    
+    
+    
+
 /*
 // Guardar receta desde el modal de crear receta
 saveRecipeBtn.addEventListener('click', () => {
@@ -249,7 +288,7 @@ saveEditedRecipeBtn.addEventListener('click', () => {
 
 
 function guardarReceta() {
-    const data = {
+    const receta_a_añadir = {
         nombre: $('#recipeTitle').val().trim(),
         descripcion: $('#recipeDescription').val().trim(),
         tiempo_de_preparacion: $('#recipeTime').val().trim(),
@@ -262,20 +301,22 @@ function guardarReceta() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(receta_a_añadir)
         
     })
     .then(response => {
         if (!response.ok) {
             throw new Error('Error en la respuesta del servidor');
     }
-      return response;
+      return response.json();
       
     })
     .then(data => {
-      console.log('Respuesta del servidor:', data); 
-      receta_a_Ingrediente_añadir()
-      //location.reload();
+        
+        const id_receta_creada = data;
+    
+        receta_a_Ingrediente_añadir(id_receta_creada);
+        //location.reload();
     })
     .catch(error => {
       console.error('Error durante la peticiÃ³n:', error);
@@ -284,19 +325,32 @@ function guardarReceta() {
     
 };
 
-function receta_a_Ingrediente_añadir(){
+function receta_a_Ingrediente_añadir(id_receta){
     const formIngredientes = document.getElementById("form-ingredientes");
     const formRecetas = document.getElementById('form-recetas');
     const botonFormulario =  document.getElementById('saveRecipeBtn');
+    const botonAñadirIngrediente = document.getElementById('addIngredientBtn')
     formRecetas.classList.add('d-none');
     formIngredientes.classList.remove('d-none');
     botonFormulario.textContent = "Guardar";
     botonFormulario.removeAttribute("onclick");
 
+    botonAñadirIngrediente.addEventListener("click", function() {
+        añadirIngrediente(id_receta);
+    });
+    
+    
+
+
+
+
+
     botonFormulario.onclick = function() {
         location.reload(); 
     }
 }
+
+
 
 function receta_a_Ingrediente_editar(){
     const formIngredientes = document.getElementById("editarIngredientes");
