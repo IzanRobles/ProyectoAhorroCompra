@@ -5,6 +5,7 @@ const saveEditedRecipeBtn = document.getElementById('saveEditedRecipeBtn');
 const addIngredientBtn = document.getElementById('addIngredientBtn');
 const botonPapelera = document.getElementsByClassName('delete-recipe');
 let modalEditar = new bootstrap.Modal(document.getElementById('recipeDetailsModal'));
+let modalMostrar = new bootstrap.Modal(document.getElementById('recipeViewModal'));
 
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -14,7 +15,7 @@ let ingredientes = {};
 
 let temporaryIngredients = [];
 
-// Función para reposicionar la tarjeta de añadir receta
+/*Función para reposicionar la tarjeta de añadir receta
 function repositionAddRecipeCard() {
     const addRecipeCard = document.querySelector('.add-recipe-card').parentElement;
     const allCards = Array.from(recipeContainer.querySelectorAll('.col-md-4'));
@@ -24,7 +25,7 @@ function repositionAddRecipeCard() {
         lastCard.insertAdjacentElement('afterend', addRecipeCard);
     }
 }
-
+*/
 // Añadir ingrediente
 
 
@@ -137,6 +138,9 @@ saveRecipeBtn.addEventListener('click', () => {
     }
 });
 */
+
+
+
 // Mostrar detalles en el modal de vista
 
 /*
@@ -164,6 +168,9 @@ recipeContainer.addEventListener('click', (event) => {
 });
 */
 
+
+
+
 function formEditarReceta(id_receta){
     document.getElementById('editRecipeTitle').value = recetas[id_receta].nombre;
     document.getElementById('editRecipeDescription').value = recetas[id_receta].descripcion;
@@ -181,6 +188,8 @@ function formEditarReceta(id_receta){
         };
         console.log("receta Actualizada: " + data)
         updateReceta(id_receta, data)
+        
+
     })
 
     modalEditar.show();
@@ -261,6 +270,66 @@ recipeContainer.addEventListener('click', (event) => {
         saveEditedRecipeBtn.dataset.cardIndex = Array.from(recipeContainer.children).indexOf(card);
     }
 });
+*/
+
+
+function getListaIngredientes(id_receta){
+    fetch(`http://localhost:8080/api/ingredientes/getIngredientes?id_receta=${id_receta}`, {  
+        method: 'GET'   
+    })  
+        .then(response => {  
+            if (!response.ok) {  
+                throw new Error('Error en la respuesta del servidor');  
+            }  
+            return response.json();    
+        })  
+        .then(data => {  
+            mostrarListaIngredientes(data);
+        }) 
+        .catch(error => {  
+            console.error('Error durante la petición:', error);  // Manejo de errores  
+        });  
+}
+
+
+
+    function mostrarListaIngredientes(ingredientes){
+        const ingredientList = document.getElementById('viewIngredientList');
+        ingredientList.innerHTML = '';
+        ingredientes.forEach((ingrediente) => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            listItem.textContent = ingrediente.ingrediente + ": " + ingrediente.cantidad + " " + ingrediente.unidades;
+            ingredientList.appendChild(listItem);
+        });
+    }
+
+
+function mostrarDetallesReceta(receta){
+    
+
+        // Mostrar los detalles en el modal
+        document.getElementById('viewRecipeTitle').textContent = receta.nombre;
+        document.getElementById('viewRecipeDescription').textContent = receta.descripcion;
+        document.getElementById('viewRecipeServings').textContent = receta.num_personas;
+        document.getElementById('viewRecipeTime').textContent = receta.tiempo_de_preparacion;
+        getListaIngredientes(receta.id);
+
+
+    /*  const ingredientList = document.getElementById('viewIngredientList');
+        ingredientList.innerHTML = '';
+        details.ingredients.forEach((ingredient) => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            listItem.textContent = ingredient;
+            ingredientList.appendChild(listItem);
+        });
+    */
+        document.getElementById('viewRecipeSteps').textContent = receta.pasos || 'Sin pasos adicionales';
+
+        modalMostrar.show()
+}
+
 
 // Guardar cambios en receta desde el modal de edición
 
@@ -386,6 +455,26 @@ function receta_a_Ingrediente_editar(){
 });
 */
 
+function obtenerRecetaById(id_receta){
+    fetch(`http://localhost:8080/api/recetas/getRecetaById?id=${id_receta}`, {  
+        method: 'GET'   
+    })  
+        .then(response => {  
+            if (!response.ok) {  
+                throw new Error('Error en la respuesta del servidor');  
+            }  
+            return response.json();    
+        })  
+        .then(data => {  
+            mostrarDetallesReceta(data);
+        }) 
+        .catch(error => {  
+            console.error('Error durante la petición:', error);  // Manejo de errores  
+        });  
+};
+
+
+
 
 window.onload = function obtenerRecetas() {  
 
@@ -418,107 +507,106 @@ window.onload = function obtenerRecetas() {
 //const recetas = obtenerRecetas()
 // Función para mostrar las recetas en la página
 function mostrarRecetas(recetas) {
-    
     // Accedemos al contenedor de recetas
     const recipeContainer = document.getElementById('recipeContainer');
 
     // Limpiamos el contenedor para no duplicar las recetas
     recipeContainer.innerHTML = '';
 
-    // Verificamos si hay recetas y las mostramos
-    if (recetas && recetas.length > 0) {
-        recetas.forEach(function(receta) {
-            // Creamos el contenedor div para cada receta
-            const recetaCol = document.createElement('div');
-            recetaCol.classList.add('col-md-4');
+    // Iteramos sobre las recetas
+    recetas.forEach(function(receta) {
+        // Creamos el contenedor div para cada receta
+        const recetaCol = document.createElement('div');
+        recetaCol.classList.add('col-md-4');
 
-            const recetaCard = document.createElement('div');
-            recetaCard.classList.add('recipe-card','position-relative');
+        const recetaCard = document.createElement('div');
+        recetaCard.classList.add('recipe-card', 'position-relative');
 
-            const recetaTitle = document.createElement('h5');
-            recetaTitle.classList.add('recipe-title');
-            recetaTitle.setAttribute('data-bs-toggle', 'modal');
-            recetaTitle.setAttribute('data-bs-target', '#recipeDetailsModal');
-            recetaTitle.textContent = receta.nombre; // Nombre de la receta
+        const recetaTitle = document.createElement('h5');
+        recetaTitle.classList.add('recipe-title');
+       // recetaTitle.setAttribute('data-bs-toggle', 'modal');
+        //recetaTitle.setAttribute('data-bs-target', '#recipeDetailsModal');
+        recetaTitle.textContent = receta.nombre; // Nombre de la receta
 
-            const tiempoPrep = document.createElement('p');
-            tiempoPrep.textContent = `Tiempo de preparación: ${receta.tiempo_de_preparacion} min`;
+        const tiempoPrep = document.createElement('p');
+        tiempoPrep.textContent = `Tiempo de preparación: ${receta.tiempo_de_preparacion} min`;
 
-            const botonCocinar = document.createElement('button');
+        const botonCocinar = document.createElement('button');
 
-            const circle1 = document.createElement('span');
-            circle1.classList.add('circle1');
-            const circle2 = document.createElement('span');
-            circle2.classList.add('circle2');
-            const circle3 = document.createElement('span');
-            circle3.classList.add('circle3');
-            const circle4 = document.createElement('span');
-            circle4.classList.add('circle4');
-            const circle5 = document.createElement('span');
-            circle5.classList.add('circle5');
+        const circle1 = document.createElement('span');
+        circle1.classList.add('circle1');
+        const circle2 = document.createElement('span');
+        circle2.classList.add('circle2');
+        const circle3 = document.createElement('span');
+        circle3.classList.add('circle3');
+        const circle4 = document.createElement('span');
+        circle4.classList.add('circle4');
+        const circle5 = document.createElement('span');
+        circle5.classList.add('circle5');
 
-            const buttonText = document.createElement('span');
-            buttonText.classList.add('text');
-            buttonText.textContent = 'Cocinar';
+        const buttonText = document.createElement('span');
+        buttonText.classList.add('text');
+        buttonText.textContent = 'Cocinar';
 
-            // Añadimos los elementos al botón
-            botonCocinar.appendChild(circle1);
-            botonCocinar.appendChild(circle2);
-            botonCocinar.appendChild(circle3);
-            botonCocinar.appendChild(circle4);
-            botonCocinar.appendChild(circle5);
-            botonCocinar.appendChild(buttonText);
+        // Añadimos los elementos al botón
+        botonCocinar.appendChild(circle1);
+        botonCocinar.appendChild(circle2);
+        botonCocinar.appendChild(circle3);
+        botonCocinar.appendChild(circle4);
+        botonCocinar.appendChild(circle5);
+        botonCocinar.appendChild(buttonText);
 
-            //Botones de editar y eliminar
-
-            const botonEditar = document.createElement('i');
-            botonEditar.classList.add('fas','fa-edit','position-absolute','top-0','end-0','m-2','text-secondary');
-            botonEditar.setAttribute("data-bs-toggle","modal");
-            //botonEditar.setAttribute('data-bs-target','#recipeDetailsModal');
-            botonEditar.setAttribute("style","cursor: pointer;");
-            botonEditar.id = receta.id
-            botonEditar.addEventListener('click', () =>{
-                formEditarReceta(receta.id)
-            })   
-
-            const botonEliminar = document.createElement('i');
-            botonEliminar.classList.add("fas", "fa-trash-alt", "delete-recipe", "position-absolute", "top-0", "start-0", "m-2", "text-danger");
-            botonEliminar.setAttribute("style","cursor: pointer;")
-            botonEliminar.id = receta.id
-            botonEliminar.addEventListener('click',() => {
-                eliminarReceta(receta.id)
-            })
-            
-
-            // Añadimos los elementos al card
-            recetaCard.appendChild(recetaTitle);
-            recetaCard.appendChild(tiempoPrep);
-            recetaCard.appendChild(botonCocinar);
-            recetaCard.appendChild(botonEditar);
-            recetaCard.appendChild(botonEliminar);
-
-            // Añadimos la recetaCard al contenedor de la columna
-            recetaCol.appendChild(recetaCard);
-
-            // Finalmente, añadimos la columna al contenedor principal
-            recipeContainer.appendChild(recetaCol);
+        // Botones de editar y eliminar
+        const botonEditar = document.createElement('i');
+        botonEditar.classList.add('fas', 'fa-edit', 'position-absolute', 'top-0', 'end-0', 'm-2', 'text-secondary');
+        //botonEditar.setAttribute('data-bs-toggle', 'modal');
+        botonEditar.setAttribute('style', 'cursor: pointer;');
+        botonEditar.id = receta.id;
+        botonEditar.addEventListener('click', () => {
+            formEditarReceta(receta.id);
         });
 
+        const botonEliminar = document.createElement('i');
+        botonEliminar.classList.add('fas', 'fa-trash-alt', 'delete-recipe', 'position-absolute', 'top-0', 'start-0', 'm-2', 'text-danger');
+        botonEliminar.setAttribute('style', 'cursor: pointer;');
+        botonEliminar.id = receta.id;
+        botonEliminar.addEventListener('click', () => {
+            eliminarReceta(receta.id);
+        });
 
-        
-    }
-        const containerAnade = document.createElement('div');
-        containerAnade.classList.add('col-md-4');
+        // Añadimos los elementos al card
+        recetaCard.appendChild(recetaTitle);
+        recetaCard.appendChild(tiempoPrep);
+        recetaCard.appendChild(botonCocinar);
+        recetaCard.appendChild(botonEditar);
+        recetaCard.appendChild(botonEliminar);
 
-        const cartaAnade = document.createElement('div');
-        cartaAnade.classList.add("add-recipe-card");
-        cartaAnade.setAttribute('data-bs-toggle', 'modal');
-        cartaAnade.setAttribute('data-bs-target', '#recipeModal');
+        // Añadimos la recetaCard al contenedor de la columna
+        recetaCol.appendChild(recetaCard);
 
-        const icono = document.createElement('i');
-        icono.classList.add('fas', 'fa-plus');
-        cartaAnade.appendChild(icono);
-        containerAnade.appendChild(cartaAnade);
-        recipeContainer.appendChild(containerAnade); 
-    
+        // Finalmente, añadimos la columna al contenedor principal
+        recipeContainer.appendChild(recetaCol);
+
+        // Agregar evento para obtener receta por ID
+        recetaTitle.addEventListener('click', () => {
+            obtenerRecetaById(receta.id);
+        });
+    });
+
+    // Añadimos el botón para añadir receta fuera del forEach
+    const containerAnade = document.createElement('div');
+    containerAnade.classList.add('col-md-4');
+
+    const cartaAnade = document.createElement('div');
+    cartaAnade.classList.add('add-recipe-card');
+    cartaAnade.setAttribute('data-bs-toggle', 'modal');
+    cartaAnade.setAttribute('data-bs-target', '#recipeModal');
+
+    const icono = document.createElement('i');
+    icono.classList.add('fas', 'fa-plus');
+    cartaAnade.appendChild(icono);
+
+    containerAnade.appendChild(cartaAnade);
+    recipeContainer.appendChild(containerAnade);
 }
+
