@@ -263,6 +263,57 @@
 
 
 
+    <!-- Modal Cocinar -->
+<div class="modal fade" id="cookModal" tabindex="-1" aria-labelledby="cookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cookModalLabel">Detalles de la receta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <h4 id="viewRecipeTitle2" class="mb-3"></h4>
+                <!-- Pregunta para ajustar ingredientes -->
+                <div class="mb-3 mt-4 row d-flex justify-content-center">
+                    <div class="col-12">
+                        <label for="numPeople" class="form-label">¿Para cuántas personas quieres cocinar?</label>
+                        
+                    </div>
+                    <div class="col-10">
+                        <input type="number" id="numPeople" class="form-control" placeholder="Introduce un número" min="1" required>                                        
+                    </div>
+                    
+                    <div class="col-2 d-flex justify-content-center">
+                        <button type="button" id="calculateBtn" class="btn btn-primary">Calcular</button>
+                    </div>
+                    
+                </div>
+
+                
+
+
+                <!-- Detalles de la receta -->
+                
+                <p><strong>Descripción:</strong> <span id="viewRecipeDescription2"></span></p>                
+                <p><strong>Tiempo de preparación:</strong> <span id="viewRecipeTime2"></span> minutos</p>
+                <p><strong>Pasos:</strong> <span id="viewRecipeSteps2"></span></p>
+
+                <!-- Lista de ingredientes calculados -->
+                <div id="ingredientsList" class="mt-3" style="display: none;">
+                    <h6>Ingredientes:</h6>
+                    <ul id="calculatedIngredients" class="list-group"></ul>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -351,35 +402,6 @@
 
     <script src="js/script.js"></script>
 
-    <script>
-        function validateName(input) {
-            const warning = document.getElementById('nameWarning');
-            const hasNumbers = /\d/.test(input.value);
-
-            if (hasNumbers) {
-                warning.style.display = 'block';
-                input.value = input.value.replace(/\d/g, '');
-            } else {
-                warning.style.display = 'none';
-            }
-        }
-    </script>
-
-    <script>
-        function validateUnit(input) {
-            const allowedUnits = ['kg', 'kilogramo', 'kilogramos', 'KG', 'hg', 'hectogramo', 'hectogramos', 'HG', 'dag', 'decagramo', 'decagramos', 'DAG', 'g', 'gramo', 'gramos', 'G'
-                , 'dg', 'decigramo', 'decigramos', 'DG', 'cg', 'centigramo', 'centigramos', 'CG', 'mg', 'miligramo', 'miligramos', 'MG', 'kl', 'kilolitro', 'kilolitros', 'KL', 'hl', 'hectolitro'
-                , 'hectolitros', 'HL', 'dal', 'decalitro', 'decalitros', 'DAL', 'l', 'litro', 'litros', 'dl', 'decilitro', 'decilitros', 'DL', 'cl', 'centilitro', 'centilitros', 'CL', 'ml', 'mililitro'
-                , 'mililitros', 'ML'];
-            const warning = document.getElementById('unitWarning');
-
-            if (!allowedUnits.includes(input.value.trim())) {
-                warning.style.display = 'block';
-            } else {
-                warning.style.display = 'none';
-            }
-        }
-    </script>
     <script src="principal.js"></script>
 
 </body>
