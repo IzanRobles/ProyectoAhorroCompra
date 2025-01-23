@@ -714,6 +714,7 @@ function mostrarRecetas(recetas) {
         tiempoPrep.textContent = `Tiempo de preparación: ${receta.tiempo_de_preparacion} min`;
 
         const botonCocinar = document.createElement('button');
+        botonCocinar.classList.add('cocinar-btn');
 
         const circle1 = document.createElement('span');
         circle1.classList.add('circle1');
@@ -729,6 +730,8 @@ function mostrarRecetas(recetas) {
         const buttonText = document.createElement('span');
         buttonText.classList.add('text');
         buttonText.textContent = 'Cocinar';
+        
+        botonCocinar.onclick = () => mostrarDetallesYCalcular(receta);
 
         // Añadimos los elementos al botón
         botonCocinar.appendChild(circle1);
@@ -773,6 +776,13 @@ function mostrarRecetas(recetas) {
         recetaTitle.addEventListener('click', () => {
             obtenerRecetaById(receta.id);
         });
+
+
+        // Evento para el botón "Cocinar" 
+        recetaCard.querySelector('.cocinar-btn').addEventListener('click', () => {
+            abrirCocinarModal(receta.id);
+        });
+
     });
 
     // Añadimos el botón para añadir receta fuera del forEach
