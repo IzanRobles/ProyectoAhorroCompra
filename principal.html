@@ -236,7 +236,31 @@
                         </div>
 
                         <!-- FORM INGREDIENTES -->
-                        <div id="editarIngredientes" class="d-none">
+
+                        <div id="form-ingredientes-editar" class="mb-3 d-none">
+                            <label for="ingredientNameEdit" class="form-label">Ingredientes</label>
+                            <div id="ingredientEditInputs">
+                                <div class="d-flex gap-2 mb-2">
+                                    <input type="text" class="form-control" id="ingredientEditName" placeholder="Nombre"
+                                        required>
+                                   
+                                    <input type="number" class="form-control" id="ingredientEditQuantity"
+                                        placeholder="Cantidad" required>
+                                    <input type="text" class="form-control" id="ingredientEditUnit" placeholder="Unidad"
+                                        required >
+                                    
+                                </div>
+                                <button type="button" class="btn btn-secondary" id="addEditIngredientBtn">Guardar
+                                    Ingrediente</button>
+                            </div>
+                            <ul class="list-group mt-3" id="ingredientEditList">
+                                <!-- Lista de ingredientes -->
+                            </ul>
+                    </form>
+                </div>
+            </div>
+
+            <!--                        <div id="editarIngredientes" class="d-none">
                             <div class="mb-3">
                                 <label for="editIngredientList" class="form-label">Ingredientes</label>
                                 <ul class="list-group" id="editIngredientList"></ul>
@@ -253,12 +277,15 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="saveEditedRecipeBtn" onclick="receta_a_Ingrediente_editar()">Siguiente</button>
-                </div>
+                -->
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="saveEditedRecipeBtn"
+                    onclick="">Siguiente</button>
             </div>
         </div>
+    </div>
     </div>
 
 

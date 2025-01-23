@@ -29,6 +29,28 @@ function repositionAddRecipeCard() {
 // Añadir ingrediente
 
 
+
+
+function eliminarIngrediente(id, id_receta){
+    const url = 'http://localhost:8080/api/ingredientes/delete?id_ingrediente=' + id;
+        fetch(url, {  
+            method: 'DELETE'
+              
+        })  
+            .then(response => {  
+                if (!response.ok) {  
+                    throw new Error('Error en la respuesta del servidor');  
+                }  
+                getListaIngredientesAñadir(id_receta);  
+                getListaIngredientesEditar(id_receta)
+            })  
+              
+            .catch(error => {  
+                console.error('Error durante la petición:', error);  
+            });  
+}
+
+
 function añadirIngrediente(id_receta){
    /* const nombreIng = ;
     const cantidadIng = ;
@@ -59,16 +81,17 @@ function añadirIngrediente(id_receta){
           return response;
           
         })
-        /*
+        
         .then(data => {
           console.log('Respuesta del servidor:', data); 
-          receta_a_Ingrediente_añadir()
+          getListaIngredientesAñadir(id_receta)
+          
           //location.reload();
         })
         .catch(error => {
           console.error('Error durante la peticiÃ³n:', error);
         });
-        */
+        
         
     
     
@@ -86,7 +109,63 @@ function añadirIngrediente(id_receta){
         document.getElementById('ingredientUnit').value = '';
 }
     
-    
+function añadirIngredienteEditar(id_receta){
+    /* const nombreIng = ;
+     const cantidadIng = ;
+     const unidadesIng = ;
+ */
+ 
+ 
+         const ingrediente_a_añadir = {
+             ingrediente: document.getElementById('ingredientEditName').value.trim(),
+             cantidad: document.getElementById('ingredientEditQuantity').value.trim(),
+             unidades: document.getElementById('ingredientEditUnit').value.trim(),
+         };
+         console.log("Ingrediente: ", ingrediente_a_añadir)
+     
+         fetch(`http://localhost:8080/api/ingredientes/create?id_receta=${id_receta}`, {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify(ingrediente_a_añadir)
+             
+         })
+         .then(response => {
+             if (!response.ok) {
+                 console.log("Ingrediente: ", ingrediente_a_añadir)
+                 throw new Error('Error en la respuesta del servidor');
+         }
+           return response;
+           
+         })
+         
+         .then(data => {
+           console.log('Respuesta del servidor:', data); 
+           getListaIngredientesEditar(id_receta)
+           
+           //location.reload();
+         })
+         .catch(error => {
+           console.error('Error durante la peticiÃ³n:', error);
+         });
+         
+         
+     
+     
+ 
+         /*const ingredientList = document.getElementById('ingredientList');
+         const listItem = document.createElement('li');
+         listItem.classList.add('list-group-item');
+         listItem.textContent = `${quantity} ${unit} de ${name}`;
+         ingredientList.appendChild(listItem);
+         temporaryIngredients.push(`${quantity} ${unit} de ${name}`);
+ */
+         // Limpiar campos
+         document.getElementById('ingredientName').value = '';
+         document.getElementById('ingredientQuantity').value = '';
+         document.getElementById('ingredientUnit').value = '';
+ }
     
 
 /*
@@ -188,6 +267,7 @@ function formEditarReceta(id_receta){
         };
         console.log("receta Actualizada: " + data)
         updateReceta(id_receta, data)
+        receta_a_Ingrediente_editar(id_receta)
         
 
     })
@@ -208,7 +288,8 @@ function updateReceta(id_receta, receta){
             .then(response => {  
                 if (!response.ok) {  
                     throw new Error('Error en la respuesta del servidor');  
-                }  
+                }
+                  
                // location.reload();;  
             })  
               
@@ -273,7 +354,7 @@ recipeContainer.addEventListener('click', (event) => {
 */
 
 
-function getListaIngredientes(id_receta){
+function getListaIngredientesVisualizar(id_receta){
     fetch(`http://localhost:8080/api/ingredientes/getIngredientes?id_receta=${id_receta}`, {  
         method: 'GET'   
     })  
@@ -284,7 +365,44 @@ function getListaIngredientes(id_receta){
             return response.json();    
         })  
         .then(data => {  
-            mostrarListaIngredientes(data);
+            mostrarListaIngredientesVisualizar(data);
+        }) 
+        .catch(error => {  
+            console.error('Error durante la petición:', error);  // Manejo de errores  
+        });  
+}
+
+
+function getListaIngredientesAñadir(id_receta){
+    fetch(`http://localhost:8080/api/ingredientes/getIngredientes?id_receta=${id_receta}`, {  
+        method: 'GET'   
+    })  
+        .then(response => {  
+            if (!response.ok) {  
+                throw new Error('Error en la respuesta del servidor');  
+            }  
+            return response.json();    
+        })  
+        .then(data => {  
+            mostrarListaIngredientesAñadir(data);
+        }) 
+        .catch(error => {  
+            console.error('Error durante la petición:', error);  // Manejo de errores  
+        });  
+}
+
+function getListaIngredientesEditar(id_receta){
+    fetch(`http://localhost:8080/api/ingredientes/getIngredientes?id_receta=${id_receta}`, {  
+        method: 'GET'   
+    })  
+        .then(response => {  
+            if (!response.ok) {  
+                throw new Error('Error en la respuesta del servidor');  
+            }  
+            return response.json();    
+        })  
+        .then(data => {  
+            mostrarListaIngredientesEditar(data);
         }) 
         .catch(error => {  
             console.error('Error durante la petición:', error);  // Manejo de errores  
@@ -293,15 +411,74 @@ function getListaIngredientes(id_receta){
 
 
 
-    function mostrarListaIngredientes(ingredientes){
+
+function mostrarListaIngredientesAñadir(ingredientes){
+    const ingredientList = document.getElementById('ingredientList');
+    ingredientList.innerHTML = '';
+    ingredientes.forEach((ingrediente) => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
+        listItem.textContent = ingrediente.ingrediente + ": " + ingrediente.cantidad + " " + ingrediente.unidades;
+        
+        const botonEliminarIngrediente = document.createElement('i');
+        botonEliminarIngrediente.classList.add('fas', 'fa-trash', 'fa-trash-alt', 'delete-recipe', 'm-2', 'text-danger', 'justify-content-end', 'd-flex');
+        botonEliminarIngrediente.setAttribute('style', 'cursor: pointer;');
+        botonEliminarIngrediente.setAttribute('cursorhover', 'true');
+        botonEliminarIngrediente.id = ingrediente.id_ingrediente;
+        botonEliminarIngrediente.addEventListener('click', () => {
+            eliminarIngrediente(ingrediente.id_ingrediente, ingrediente.id_receta);
+        });
+        listItem.appendChild(botonEliminarIngrediente);
+        
+        ingredientList.appendChild(listItem);
+    });
+}
+
+
+function mostrarListaIngredientesEditar(ingredientes){
+    const ingredientList = document.getElementById('ingredientEditList');
+    ingredientList.innerHTML = '';
+    ingredientes.forEach((ingrediente) => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
+        listItem.textContent = ingrediente.ingrediente + ": " + ingrediente.cantidad + " " + ingrediente.unidades;
+        
+        const botonEliminarIngrediente = document.createElement('i');
+        botonEliminarIngrediente.classList.add('fas', 'fa-trash', 'fa-trash-alt', 'delete-recipe', 'm-2', 'text-danger', 'justify-content-end', 'd-flex');
+        botonEliminarIngrediente.setAttribute('style', 'cursor: pointer;');
+        botonEliminarIngrediente.setAttribute('cursorhover', 'true');
+        botonEliminarIngrediente.id = ingrediente.id_ingrediente;
+        botonEliminarIngrediente.addEventListener('click', () => {
+            eliminarIngrediente(ingrediente.id_ingrediente, ingrediente.id_receta);
+        });
+        listItem.appendChild(botonEliminarIngrediente);
+        
+        ingredientList.appendChild(listItem);
+    });
+}
+
+
+    function mostrarListaIngredientesVisualizar(ingredientes){
         const ingredientList = document.getElementById('viewIngredientList');
         ingredientList.innerHTML = '';
         ingredientes.forEach((ingrediente) => {
             const listItem = document.createElement('li');
-            listItem.classList.add('list-group-item');
+            listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
             listItem.textContent = ingrediente.ingrediente + ": " + ingrediente.cantidad + " " + ingrediente.unidades;
+            /*
+            const botonEliminarIngrediente = document.createElement('i');
+            botonEliminarIngrediente.classList.add('fas', 'fa-trash', 'fa-trash-alt', 'delete-recipe', 'm-2', 'text-danger', 'justify-content-end', 'd-flex');
+            botonEliminarIngrediente.setAttribute('style', 'cursor: pointer;');
+            botonEliminarIngrediente.setAttribute('cursorhover', 'true');
+            listItem.appendChild(botonEliminarIngrediente);
+            */
             ingredientList.appendChild(listItem);
         });
+
+        /*
+<i class="fas fa-trash-alt delete-recipe  m-2 text-danger justify-content-end d-flex" style="cursor: pointer;" cursorshover="true"></i>
+
+        */
     }
 
 
@@ -313,7 +490,7 @@ function mostrarDetallesReceta(receta){
         document.getElementById('viewRecipeDescription').textContent = receta.descripcion;
         document.getElementById('viewRecipeServings').textContent = receta.num_personas;
         document.getElementById('viewRecipeTime').textContent = receta.tiempo_de_preparacion;
-        getListaIngredientes(receta.id);
+        getListaIngredientesVisualizar(receta.id);
 
 
     /*  const ingredientList = document.getElementById('viewIngredientList');
@@ -421,14 +598,19 @@ function receta_a_Ingrediente_añadir(id_receta){
 
 
 
-function receta_a_Ingrediente_editar(){
-    const formIngredientes = document.getElementById("editarIngredientes");
+function receta_a_Ingrediente_editar(id_receta){
+    const formIngredientes = document.getElementById("form-ingredientes-editar");
     const formRecetas = document.getElementById('editarReceta');
     const botonFormulario =  document.getElementById('saveEditedRecipeBtn');
+    const botonAñadirIngredienteEdit =  document.getElementById('addEditIngredientBtn')
     formRecetas.classList.add('d-none');
     formIngredientes.classList.remove('d-none');
     botonFormulario.textContent = "Guardar";
     botonFormulario.removeAttribute("onclick");
+    getListaIngredientesEditar(id_receta)
+    botonAñadirIngredienteEdit.addEventListener("click", function() {
+        añadirIngredienteEditar(id_receta);
+    });
 
     botonFormulario.onclick = function() {
         location.reload(); 
